@@ -1,16 +1,20 @@
-<Programa>::= "ONION"("main")":"<ListaFunciones><Fin>
+<Programa>::= "ONION"":"<LineasCodigo><Fin>
 
 <Fin>::= ";"
+<LineasCodigo>:=<DeclaracionVariable>|<ListaFunciones>|<LineasCodigo><DeclaracionVariable>|<LineasCodigo><ListaFunciones>
 
-<ListaFunciones>::= <Funcion>|<ListaFunciones><Funcion>|"ξ"
-<Funcion>::= "func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Fin>
+<ListaFunciones>::= <FuncionIni>|<ListaFunciones><FuncionExt>|"ξ"
+<FuncionIni>::"func" <Variable>("main") ":"<ListaInstrucciones><Fin>
+<FuncionExt>::= <FuncionSinRetorno>|<FuncionConRetorno> 
+<FuncionSinRetorno>::="func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Fin>
+<FuncionConRetorno>::="func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Retorno><Fin>
 <ListaParmetros>::= <ListaVariables>|<ListaExpreciones>|"ξ"
 <ListaExpreciones>::= <Exprecion>|<ListaExpreciones> "," <Exprecion>
 
-<ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>
-<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncion>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>
+<ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
+<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSR>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>
 
-<Exprecion>::= <ExprecionAritmetica>|<Variable>|<UsarFuncion>|<Cadena>
+<Exprecion>::= <ExprecionAritmetica>|(<Exprecion>)|<Variable>|<UsarFuncionCR>|<Cadena>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
 <Real>::= <Entero>"."<EnteroSin>
 <Entero>::= <Signo><Digito>|<Entero><Digito>
@@ -28,6 +32,8 @@
 <EnteroSin>::= <Digito>|<EnteroSin><Digito>
 <Digito>::= 1|2|3|4|5|6|7|8|9|0
 
+<UsarFuncionCR>::=<UsarFuncion>
+<UsarFuncionSR>::=<UsarFuncion><Fin>
 <UsarFuncion>::= <Variable>(<ListaParmetros>)
 
 <DeclaracionVariable>::= "var" <ListaVariables><Fin>|"var" <Asignacion> /* var h1,h2; | var h3 = 12 */
@@ -56,6 +62,50 @@
 
 
 
+
+/* exjeplo de codigo*/
+
+ONION :
+
+    var h1,h2;
+    var h3=2;
+
+    fun f1 (main): 
+    
+
+        f2(5,2+2);
+
+        if (h3<(h2+h1)):
+
+            h3= f3(h3,h1,h2);
+
+        :else if (h2<h3):
+
+            h3 = h1;
+
+        :else:
+
+            h3= h2;
+        ;
+    ;
+
+    fun f2 (v1,v2):
+
+        h1= v1;
+        h2= v2;
+    ;
+
+    fun f3 (v1,v2,v3):
+    
+        return v1+v2+v3;
+    
+    ;
+
+;
+
+
+
+/* /////////////////////////////////////// */
 
 
 
