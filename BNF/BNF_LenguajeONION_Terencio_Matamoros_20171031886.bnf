@@ -1,0 +1,67 @@
+<Programa>::= "ONION"("main")":"<ListaFunciones><Fin>
+
+<Fin>::= ";"
+
+<ListaFunciones>::= <Funcion>|<ListaFunciones><Funcion>|"ξ"
+<Funcion>::= "func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Fin>
+<ListaParmetros>::= <ListaVariables>|<ListaExpreciones>|"ξ"
+<ListaExpreciones>::= <Exprecion>|<ListaExpreciones> "," <Exprecion>
+
+<ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>
+<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncion>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>
+
+<Exprecion>::= <ExprecionAritmetica>|<Variable>|<UsarFuncion>|<Cadena>
+<Numero>::=<Real>|<Entero>|<EnteroSin>
+<Real>::= <Entero>"."<EnteroSin>
+<Entero>::= <Signo><Digito>|<Entero><Digito>
+<Signo>::= "+"|"-"|"ξ"
+<OperadorAritmetico>::= "+"|"-"|"*"|"/"
+
+<ExprecionAritmetica>::= <Numero>|<Exprecion>|<ExprecionAritmetica><OperadorAritmetico><ExprecionAritmetica>
+
+<ListaVariables>::= <Variable>|<ListaVariables> "," <Variable>
+<Variable>::= <Cadena>
+<Cadena>::= <Letra>|<Cadena><Letra>|<Cadena><EnteroSin>
+<Letra>::= <LetraMay>|<LetraMin>
+<LetraMay>::= A|B|C|D|E|F|G|H|I|J|K|L|M|N|Ñ|O|P|Q|R|S|T|U|V|W|X|Y|Z
+<LetraMin>::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|ñ|o|p|q|r|s|t|u|v|w|x|y|z
+<EnteroSin>::= <Digito>|<EnteroSin><Digito>
+<Digito>::= 1|2|3|4|5|6|7|8|9|0
+
+<UsarFuncion>::= <Variable>(<ListaParmetros>)
+
+<DeclaracionVariable>::= "var" <ListaVariables><Fin>|"var" <Asignacion> /* var h1,h2; | var h3 = 12 */
+
+<Asignacion>::= <Variable> "=" <Exprecion><Fin>
+
+<Retorno>::= "return"<Exprecion><fin>
+
+
+
+<CicloWhile>::= "while" <Condicion> ":" <ListaInstrucciones><Fin>
+<Condicion>::= (<Booleano>)
+<Booleano> 1|0|"true"|"false"|<Exprecion><OperadorBool><Exprecion>|<Cadena><OperadorBool><Cadena>
+<OperadorBool>::= "=="|"<"|">"|"<="|">="|"!="
+
+<DecisionIf>::= <DecisionSimple><Fin>|DecisionCompuesta<Fin>
+<DecisionSimple>::= "if" <Condicion> ":" <ListaInstrucciones>|DecisionSimple ":" <DecisionDefault>
+<DecisionDefault>:: = "else" ":" <ListaInstrucciones> /*if (): 1+1 ; if (): 1+1 :else :2+2 ;*/
+<DecisionCompuesta>::= <DecisionSimple> ":" <ListaCondicionesExtra>|<DecisionCompuesta> ":" <DecisionDefault>
+<ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ":" <CondicionExtra>
+<CondicionExtra>::= "else if" ":" <ListaInstrucciones> /* if ():1+1 : else if () :2+2 : else if ():3+3 : else:565; */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
