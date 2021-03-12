@@ -1,20 +1,38 @@
-<Programa>::= "ONION"":"<LineasCodigo><Fin>
+<Programa>::=<Cebolla>
+<Cebolla>::=<Nucleo>|<Cebolla><Capas>
 
-<Fin>::= ";"
-<LineasCodigo>:=<DeclaracionVariable>|<ListaFunciones>|<LineasCodigo><DeclaracionVariable>|<LineasCodigo><ListaFunciones>
+/*nota: he incluido espacios en blanco dentro de las comillas en las palabras clabe, tomar en cuenta eso*/
+<Nucleo>::="ONION " "core " <VariableNucleo>"{"<CodigoNucleo>"}"
+<Capas>::= <Capa>|<Capas><Capa>
+<Capa>::= "ONION " "layer " <VariableCapa>"{"<CodigoCapa>"}"
 
-<ListaFunciones>::= <FuncionIni>|<ListaFunciones><FuncionExt>|"ξ"
-<FuncionIni>::"func" <Variable>("main") ":"<ListaInstrucciones><Fin>
+<VariableCapa>::=<Variable>
+<VariableNucleo>::=<Variable>
+
+<Fin>::=";"
+
+<CodigoNucleo>::=<CodigoExtra><FuncionIni><ListaFuncionesExt> 
+<FuncionIni>::"func " <Variable>("main") ":"<ListaInstrucciones><Fin>
+
+<CodigoCapa>::= <CodigoExtra><ListaFuncionesExt>
+<CodigoExtra>::= <ListaImportacion>|<ListaVariablesGlobales>|<ListaImportacion><ListaVariablesGlobales>|"ξ"
+<ListaImportacion>::= <Importacion>|<ListaImportacion><Importacion>
+<Importacion>::= "import " "layer ""."<VariableCapa><Fin>
+<ListaVariablesGlobales>::= <DeclaracionVariable>|<ListaVariablesGlobales><DeclaracionVariable>
+
+
+<ListaFuncionesExt>::= <FuncionExt>|<ListaFunciones><FuncionExt>|"ξ"
 <FuncionExt>::= <FuncionSinRetorno>|<FuncionConRetorno> 
-<FuncionSinRetorno>::="func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Fin>
-<FuncionConRetorno>::="func" <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Retorno><Fin>
+<FuncionSinRetorno>::="func " <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Fin>
+<FuncionConRetorno>::="func " <Variable> (<ListaParmetros>) ":"<ListaInstrucciones><Retorno><Fin>
 <ListaParmetros>::= <ListaVariables>|<ListaExpreciones>|"ξ"
 <ListaExpreciones>::= <Exprecion>|<ListaExpreciones> "," <Exprecion>
 
 <ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
-<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSR>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>
 
-<Exprecion>::= <ExprecionAritmetica>|(<Exprecion>)|<Variable>|<UsarFuncionCR>|<Cadena>
+<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSR>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>|<Imprimir>
+
+<Exprecion>::= <ExprecionAritmetica>|(<Exprecion>)|<Variable>|<UsarFuncionCR>|<Cadena>|<VariableObj>"."<Variable>|<VariableObj>"."<UsarFuncionCR>|<Grafo>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
 <Real>::= <Entero>"."<EnteroSin>
 <Entero>::= <Signo><Digito>|<Entero><Digito>
@@ -33,60 +51,67 @@
 <Digito>::= 1|2|3|4|5|6|7|8|9|0
 
 <UsarFuncionCR>::=<UsarFuncion>
-<UsarFuncionSR>::=<UsarFuncion><Fin>
+<UsarFuncionSR>::=<UsarFuncion><Fin>|<VariableObj>"."<UsarFuncion><Fin>
 <UsarFuncion>::= <Variable>(<ListaParmetros>)
 
-<DeclaracionVariable>::= "var" <ListaVariables><Fin>|"var" <Asignacion> /* var h1,h2; | var h3 = 12 */
+<DeclaracionVariable>::= "var " <ListaVariables><Fin>|"var " <Asignacion>|
 
-<Asignacion>::= <Variable> "=" <Exprecion><Fin>
+<Asignacion>::= <Variable> "=" <Exprecion><Fin>|<Variable> "=" <VariableObj>.<Variable><Fin>|<VariableObj>.<Variable> "=" <Exprecion><Fin>|<VariableObj> "=" new <VariableCapa><Fin>
+<Grafo>::= "json"
 
-<Retorno>::= "return"<Exprecion><fin>
+<VariableObj>::= <Variable>
 
+<Retorno>::= "return "<Exprecion><Fin>
 
-
-<CicloWhile>::= "while" <Condicion> ":" <ListaInstrucciones><Fin>
+<CicloWhile>::= "while " <Condicion> ":" <ListaInstrucciones><Fin>
 <Condicion>::= (<Booleano>)
 <Booleano> 1|0|"true"|"false"|<Exprecion><OperadorBool><Exprecion>|<Cadena><OperadorBool><Cadena>
 <OperadorBool>::= "=="|"<"|">"|"<="|">="|"!="
 
 <DecisionIf>::= <DecisionSimple><Fin>|DecisionCompuesta<Fin>
-<DecisionSimple>::= "if" <Condicion> ":" <ListaInstrucciones>|DecisionSimple ":" <DecisionDefault>
-<DecisionDefault>:: = "else" ":" <ListaInstrucciones> /*if (): 1+1 ; if (): 1+1 :else :2+2 ;*/
+<DecisionSimple>::= "if " <Condicion> ":" <ListaInstrucciones>|DecisionSimple ":" <DecisionDefault>
+<DecisionDefault>:: = "else" ":" <ListaInstrucciones>
 <DecisionCompuesta>::= <DecisionSimple> ":" <ListaCondicionesExtra>|<DecisionCompuesta> ":" <DecisionDefault>
 <ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ":" <CondicionExtra>
-<CondicionExtra>::= "else if" ":" <ListaInstrucciones> /* if ():1+1 : else if () :2+2 : else if ():3+3 : else:565; */
+<CondicionExtra>::= "else if "<Condicion> ":" <ListaInstrucciones> 
+
+
+<Imprimir>::= "print""."(Exprecion)<Fin>
 
 
 
 
 
+/* exjeplo de codigo
+las comillas en 'nucleo' no son necesarias solo es para diferenciar
+*/
 
+ONION core 'nucleo'{
 
-
-/* exjeplo de codigo*/
-
-ONION :
-
+    import layer.'exten' /*comillas no necesarias solo son para resaltar*/
+    
     var h1,h2;
-    var h3=2;
+    var h3= new 'exten';
 
     fun f1 (main): 
-    
+
 
         f2(5,2+2);
 
         if (h3<(h2+h1)):
 
-            h3= f3(h3,h1,h2);
+             h3.'fx1()'= f3(h3,h1,h2);
 
         :else if (h2<h3):
 
-            h3 = h1;
+            h3.'ex1' = h1;
 
         :else:
 
-            h3= h2;
+            h3.'fx2('h2')';
         ;
+
+
     ;
 
     fun f2 (v1,v2):
@@ -101,7 +126,24 @@ ONION :
     
     ;
 
-;
+    print.(f3);
+
+}
+
+ONION layer 'exten'{
+
+    var ex1=2;
+
+    fx1():
+        return ex1;
+    ;
+
+    fx2(vw):
+    
+        ex1=vw;
+    ;
+
+}
 
 
 
