@@ -75,6 +75,12 @@
 <ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ":" <CondicionExtra>
 <CondicionExtra>::= "else if "<Condicion> ":" <ListaInstrucciones> 
 
+<CicloFor>::="for " (<Expresion> "; " <Condicion> "; " <Expresion>)<ListaInstrucciones><Fin>
+<CicloWhile>::="do " <ListaInstrucciones> "while " <Condicion><Fin>
+<Switch>::="switch " <variable> <ListaCasos> <Fin>|"switch " <variable> <ListaCasos> <Default> <Fin>
+<Default>::=<ListaInstrucciones>
+<ListaCasos>::=<Casos>|<ListaCasos><Casos>
+<Caso>::="case " <EnteroSin> ": "  <ListaInstrucciones> "break " <Fin>| "case " <letra> ": "  <ListaInstrucciones> "break " <Fin>
 
 <Imprimir>::= "print""."(Exprecion)<Fin>
 
