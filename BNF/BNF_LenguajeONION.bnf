@@ -30,16 +30,16 @@
 
 <ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
 
-<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSR>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>|<Imprimir>
+<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSR>|<CicloWhile>|<DecisionIf>|<ExprecionAritmetica>|<Imprimir>|<CicloFor>|<CicloWhile>|<CicloDoWhile>|<Switch>
 
-<Exprecion>::= <ExprecionAritmetica>|(<Exprecion>)|<Variable>|<UsarFuncionCR>|<Cadena>|<VariableObj>"."<Variable>|<VariableObj>"."<UsarFuncionCR>|<Grafo>
+<Expresion>::= <ExprecionAritmetica>|(<Exprecion>)|<Variable>|<UsarFuncionCR>|<Cadena>|<VariableObj>"."<Variable>|<VariableObj>"."<UsarFuncionCR>|<Grafo>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
 <Real>::= <Entero>"."<EnteroSin>
 <Entero>::= <Signo><Digito>|<Entero><Digito>
 <Signo>::= "+"|"-"|"ξ"
 <OperadorAritmetico>::= "+"|"-"|"*"|"/"
 
-<ExprecionAritmetica>::= <Numero>|<Exprecion>|<ExprecionAritmetica><OperadorAritmetico><ExprecionAritmetica>
+<ExprecionAritmetica>::= <Numero>|<Expresion>|<ExprecionAritmetica><OperadorAritmetico><ExprecionAritmetica>
 
 <ListaVariables>::= <Variable>|<ListaVariables> "," <Variable>
 <Variable>::= <Cadena>
@@ -56,16 +56,16 @@
 
 <DeclaracionVariable>::= "var " <ListaVariables><Fin>|"var " <Asignacion>|
 
-<Asignacion>::= <Variable> "=" <Exprecion><Fin>|<Variable> "=" <VariableObj>.<Variable><Fin>|<VariableObj>.<Variable> "=" <Exprecion><Fin>|<VariableObj> "=" new <VariableCapa><Fin>
+<Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObj>.<Variable><Fin>|<VariableObj>.<Variable> "=" <Expresion><Fin>|<VariableObj> "=" new <VariableCapa><Fin>
 <Grafo>::= "json"
 
 <VariableObj>::= <Variable>
 
-<Retorno>::= "return "<Exprecion><Fin>
+<Retorno>::= "return "<Expresion><Fin>
 
 <CicloWhile>::= "while " <Condicion> ":" <ListaInstrucciones><Fin>
 <Condicion>::= (<Booleano>)
-<Booleano> 1|0|"true"|"false"|<Exprecion><OperadorBool><Exprecion>|<Cadena><OperadorBool><Cadena>
+<Booleano> 1|0|"true"|"false"|<Expresion><OperadorBool><Exprecion>|<Cadena><OperadorBool><Cadena>
 <OperadorBool>::= "=="|"<"|">"|"<="|">="|"!="
 
 <DecisionIf>::= <DecisionSimple><Fin>|DecisionCompuesta<Fin>
@@ -76,19 +76,20 @@
 <CondicionExtra>::= "elif "<Condicion> ":" <ListaInstrucciones> 
 
 <CicloFor>::="for " (<Expresion> "; " <Condicion> "; " <Expresion>)  ":"<ListaInstrucciones><Fin>
-<CicloWhile>::="do"  ":"<ListaInstrucciones>  ":""while " <Condicion><Fin>
+<CicloWhile>::= "while " <condicion> ":" <ListaInstrucciones> <Fin>
+<CicloDoWhile>::="do"  ":"<ListaInstrucciones>  ":""while " <Condicion><Fin>
 <Switch>::="switch " <variable>  <ListaCasos> <Fin>|"switch " <variable>  <ListaCasos> <Default> <Fin>
 <Default>::=<ListaInstrucciones>
 <ListaCasos>::=<Casos>|<ListaCasos><Casos>
 <Casos>::="case " <EnteroSin> ": "  <ListaInstrucciones> "break " <Fin>| "case " <letra> ": "  <ListaInstrucciones> "break " <Fin>
 
-<Imprimir>::= "print""."(Exprecion)<Fin>
+<Imprimir>::= "print""."(Expresion)<Fin>
 
 
 
 
 
-/* exjeplo de codigo
+/* ejemplo de codigo
 las comillas en 'nucleo' no son necesarias solo es para diferenciar
 */
 
