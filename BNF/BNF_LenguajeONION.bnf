@@ -1,6 +1,6 @@
 /*BNF_LENGUAJE_ONNION
-NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente como palabra clave
-      para matener mayot limpieza*/
+NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente como palabra clave
+      para mantener mayor limpieza*/
 
 <Programa>::=<Cebolla>
 <Cebolla>::=<Nucleo>|<Cebolla><Capas>
