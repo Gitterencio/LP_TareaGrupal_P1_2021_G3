@@ -1,0 +1,84 @@
+
+"moviendo un brazo robotico"
+
+ONION core Principal {
+
+    import layer.Brazo;
+
+    var brazoD= new Brazo();
+
+    func principal(main):
+
+        var n=1;
+        do:
+
+        brazo.mover(n);
+
+        :while(brazoD.bateria()>20);
+
+        if(brazoD.bateria()<=20):
+
+            brazoD.cargar();
+        ;
+
+
+        switch  (brazoD.bateria):
+         
+         case 100:
+
+            print.("cargado");
+
+            break;
+         ;
+
+         print.("error de carga");
+        
+        ;
+    ;
+
+
+}
+
+ONION layer Brazo{
+    
+    var carga = "nivel de carga en numeros";
+
+    func mover(n):
+
+        if (n==1):
+
+            print.("mover derecha");
+
+        :elif (n==-1):
+
+            print.("mover izquierda");
+
+        else:
+
+            print.("rompiste el brazo");
+        ;
+        
+    ;
+
+    func bateria():
+        
+
+        return carga;
+    ;
+
+    func cargar():
+    
+        for (var i=carga; i<100; i++):
+
+            carga+=10;
+
+        ;
+
+    ;
+
+}
+
+
+
+
+
