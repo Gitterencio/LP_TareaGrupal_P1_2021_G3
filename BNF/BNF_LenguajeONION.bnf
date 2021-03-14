@@ -2,9 +2,9 @@
 <Cebolla>::=<Nucleo>|<Cebolla><Capas>
 
 /*nota: he incluido espacios en blanco dentro de las comillas en las palabras clabe, tomar en cuenta eso*/
-<Nucleo>::="ONION " "core " <VariableNucleo>"{"<CodigoNucleo>"}"
+<Nucleo>::="ONION " " core " <VariableNucleo> "{"<CodigoNucleo>"}"
 <Capas>::= <Capa>|<Capas><Capa>
-<Capa>::= "ONION " "layer " <VariableCapa>"{"<CodigoCapa>"}"
+<Capa>::= "ONION " " layer " <VariableCapa>"{"<CodigoCapa>"}"
 
 <VariableCapa>::=<Variable>
 <VariableNucleo>::=<Variable>
@@ -12,7 +12,7 @@
 <Fin>::=";"
 
 <CodigoNucleo>::=<CodigoExtra><FuncionIni><ListaFuncionesExt> 
-<FuncionIni>::"func " <Variable>("main") ":"<ListaInstrucciones><Fin>
+<FuncionIni>::"func " <Variable>"(main)" ":"<ListaInstrucciones><Fin>
 
 <CodigoCapa>::= <CodigoExtra><ListaFuncionesExt>
 <CodigoExtra>::= <ListaImportacion>|<ListaVariablesGlobales>|<ListaImportacion><ListaVariablesGlobales>|"ξ"
