@@ -20,10 +20,10 @@ NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <ListaVariablesGlobales>::= <DeclaracionVariable>|<ListaVariablesGlobales><DeclaracionVariable>
 <ListaFuncionesExtra>::= <FuncionExtra>|<ListaFunciones><FuncionExtra>|"ξ"
 <FuncionExtra>::= <FuncionSinRetorno>|<FuncionConRetorno> 
-<FuncionSinRetorno>::="func " <Variable> "("<ListaParmetros>")"  ":"<ListaInstrucciones><Fin>
-<FuncionConRetorno>::="func " <Variable> "("<ListaParmetros>")" ":"<ListaInstrucciones><Retorno>
+<FuncionSinRetorno>::="func " <Variable> "("<ListaParametros>")"  ":"<ListaInstrucciones><Fin>
+<FuncionConRetorno>::="func " <Variable> "("<ListaParametros>")" ":"<ListaInstrucciones><Retorno>
 <Retorno>::= "return "<Expresion><Fin>
-<ListaParmetros>::= <ListaVariables>|<ListaExpresiones>|"ξ"
+<ListaParametros>::= <ListaVariables>|<ListaExpresiones>|"ξ"
 <ListaExpreciones>::= <Expresion>|<ListaExpresiones> "," <Expresion>
 <ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
 
@@ -49,7 +49,7 @@ NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <UsarFuncionSinRetorno>::=<UsarFuncion><Fin>|<VariableObjeto>"."<UsarFuncion><Fin>
 <UsarFuncion>::= <Variable>"("<ListaParmetros>")"
 <DeclaracionVariable>::= "var " <ListaVariables><Fin>|"var " <Asignacion>
-<Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObjeto>.<Variable><Fin>|<VariableObjeto>.<Variable> "=" <Expresion><Fin>|<VariableObjeto> "=" "new" <VariableCapa>"("<ListaParmetros>")"<Fin>
+<Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObjeto>.<Variable><Fin>|<VariableObjeto>.<Variable> "=" <Expresion><Fin>|<VariableObjeto> "=" "new" <VariableCapa>"("<ListaParametros>")"<Fin>
 <Grafo>::= "json"
 <VariableObjeto>::= <Variable>
 <CicloWhile>::= "while " <Condicion> ":" <ListaInstrucciones><Fin>
