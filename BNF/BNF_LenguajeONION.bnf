@@ -29,7 +29,7 @@ NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 
 <Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSinRetorno>|<CicloWhile>|<DecisionIf>|<ExpresionAritmetica><Fin>|<Imprimir>|<CicloFor>|<CicloDoWhile>|<Switch>
 
-<Exprecion>::= <ExpresionAritmetica>|"("<Expresion>")"|<Variable>|<UsarFuncionConRetorno>|<Cadena>|<VariableObjeto>"."<Variable>|<VariableObjeto>"."<UsarFuncionConRetorno>|<Grafo>
+<Expresion>::= <ExpresionAritmetica>|"("<Expresion>")"|<Variable>|<UsarFuncionConRetorno>|<Cadena>|<VariableObjeto>"."<Variable>|<VariableObjeto>"."<UsarFuncionConRetorno>|<Grafo>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
 <Real>::= <Entero>"."<EnteroSin>
 <Entero>::= <Signo><Digito>|<Entero><Digito>
