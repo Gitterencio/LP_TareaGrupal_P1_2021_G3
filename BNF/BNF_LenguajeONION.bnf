@@ -56,8 +56,8 @@ NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <Condicion>::= "("<Booleano>")"
 <Booleano> 1|0|"true"|"false"|<Expresion><OperadorBool><Expresion>
 <OperadorBool>::= "=="|"<"|">"|"<="|">="|"!="
-<DecisionIf>::= <DecisionSimple><Fin>|DecisionCompuesta<Fin>
-<DecisionSimple>::= "if " <Condicion> ":" <ListaInstrucciones>|DecisionSimple ":" <DecisionDefault>
+<DecisionIf>::= <DecisionSimple><Fin>|<DecisionCompuesta><Fin>
+<DecisionSimple>::= "if " <Condicion> ":" <ListaInstrucciones>|<DecisionSimple> ":" <DecisionDefault>
 <DecisionDefault>:: = "else" ":" <ListaInstrucciones>
 <DecisionCompuesta>::= <DecisionSimple> ":" <ListaCondicionesExtra>|<DecisionCompuesta> ":" <DecisionDefault>
 <ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ":" <CondicionExtra>
