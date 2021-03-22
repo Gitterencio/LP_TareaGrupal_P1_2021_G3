@@ -23,13 +23,14 @@ NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <FuncionSinRetorno>::="func " <Variable> "("<ListaParametros>")"  ":"<ListaInstrucciones><Fin>
 <FuncionConRetorno>::="func " <Variable> "("<ListaParametros>")" ":"<ListaInstrucciones><Retorno>
 <Retorno>::= "return "<Expresion><Fin>
-<ListaParametros>::= <ListaVariables>|<ListaExpresiones>|"ξ"
+<ListaParametros>::= <ListaVariables>|<ListaExpreciones>|"ξ"
 <ListaExpreciones>::= <Expresion>|<ListaExpresiones> "," <Expresion>
 <ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
 
 <Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSinRetorno>|<CicloWhile>|<DecisionIf>|<ExpresionAritmetica><Fin>|<Imprimir>|<CicloFor>|<CicloDoWhile>|<Switch>
 
 <Expresion>::= <ExpresionAritmetica>|"("<Expresion>")"|<Variable>|<UsarFuncionConRetorno>|<Cadena>|<VariableObjeto>"."<Variable>|<VariableObjeto>"."<UsarFuncionConRetorno>|<Grafo>
+<ListaImpresion>::= <ExpresionAritmetica>|"("<ListaImpresion>")"|<Variable>|<Cadena>|<VariableObjeto>"."<Variable>|<Grafo>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
 <Real>::= <Entero>"."<EnteroSin>
 <Entero>::= <Signo><Digito>|<Entero><Digito>
@@ -47,7 +48,7 @@ NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <Digito>::= 1|2|3|4|5|6|7|8|9|0
 <UsarFuncionConRetorno>::=<UsarFuncion>
 <UsarFuncionSinRetorno>::=<UsarFuncion><Fin>|<VariableObjeto>"."<UsarFuncion><Fin>
-<UsarFuncion>::= <Variable>"("<ListaParmetros>")"
+<UsarFuncion>::= <Variable>"("<ListaParametros>")"
 <DeclaracionVariable>::= "var " <ListaVariables><Fin>|"var " <Asignacion>
 <Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObjeto>.<Variable><Fin>|<VariableObjeto>.<Variable> "=" <Expresion><Fin>|<VariableObjeto> "=" "new" <VariableCapa>"("<ListaParametros>")"<Fin>
 <Grafo>::= "json"
@@ -63,7 +64,8 @@ NOTA: tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
  
 
 <Switch>::="switch " "("<VariableSwitch>")" ":"  <ListaCasos> <Fin>|"switch " "("<VariableSwitch>")" ":"  <ListaCasos> <SwitchDefault> <Fin>
-<SwitchDefault>::=<ListaInstrucciones>
+<SwitchDefault>::="default :"<ListaInstrucciones>
 <ListaCasos>::=<Casos>|<ListaCasos><Casos>
-<Casos>::=" case " <EnteroSin> ": "  <ListaInstrucciones> "break " <Fin>| "case " <letra> ":"  <ListaInstrucciones> "break " <Fin>
-<Imprimir>::= "print"".""("<Expresion>")"<Fin>
+<ListaIntruccionesCase>::=<ListaIntrucciones>"break:"
+<Casos>::=" case " <EnteroSin> ": "  <ListaInstruccionesCase> |"case " <letra> ":" <ListaInstruccionesCase>
+<Imprimir>::= "print"".""("<ListaImpresion>")"<Fin>
