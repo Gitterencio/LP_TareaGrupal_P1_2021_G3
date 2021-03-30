@@ -1,12 +1,8 @@
-ONION core  Principal {
+ONION core  Principal {import layer.Brazo;
 
-    import layer.Brazo;
-
-    var brazoD= new Brazo();
-
-    func principal(main):
-
-        var n=1;
+    var brazoD ;
+func principal(main):
+var n;
         do:
 
         brazo.mover(n);

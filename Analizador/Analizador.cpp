@@ -15,10 +15,11 @@ string codigo;
 
 
 	//tabla de simbolos
-	string TablaSimbolos[] = {"ONION","core","layer","import","var","func"};
+	string TablaSimbolos[] = {"ONION","core","layer","import","func","var","if","while","return","print"};
 	
 	//tipo de dastos estado
-	enum TEstado{q0,q1,q2,q3,q4,q5,qe,qx,qf};
+	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,qx,qf,qe};
+	// del estado q7 hasta qx son al interior de una funcion
 	
 		
 	//variable estados
@@ -26,14 +27,20 @@ string codigo;
 
 TEstado  definirEstado(string cadena);
 bool palabraClave(string cadena);
+vector<vector<string> > listaElementos;
 
 string decLine();
 int linea;
 
-vector<vector<string> > listaElementos;
-
-void guardarVariable(string cadena);
+void guardarIdentificador(string cadena);
+vector<vector<string> > listaIdentificadores;
 vector<vector<string> > listaVariables;
+
+
+//centinelas
+	int CFP=0; //CENTINELA MAIN
+	int CFA=0; // CENTINELA DE APERTURA DE FUNCION,IF,WHILE
+
 
 
 int main()
@@ -55,11 +62,9 @@ int main()
 	longitud = codigo.size();
 	cadena=""; 
 	linea=1;
-	
-	
+		
 	//maquina de estados
 	
-		
 	
 	while (longitud > i and Estado != qe){
 		
@@ -126,7 +131,7 @@ int main()
 					if((Simbolo==' ' ||Simbolo=='\n') && cadena!="g{}uardada"){
 						
 							//guardar indentificador
-							guardarVariable(cadena);
+							guardarIdentificador(cadena);
 							cadena="g{}uardada";
 							Estado = q1;			
 						 
@@ -190,7 +195,7 @@ int main()
 				break;
 				
 			case q3:
-				// estado de import ,replicando q0
+				// estado de import  1,replicando q0
 				
 				
 			  	if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
@@ -222,7 +227,7 @@ int main()
 				break;
 				
 			case q4:
-				// replicando q1
+				//  estado de import  2, replicando q1
 					
 			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
 				 	
@@ -239,13 +244,21 @@ int main()
 				else{
 					
 				
-					if((Simbolo==' ' ||Simbolo=='\n') && cadena!="g{}uardada"){
+					if((Simbolo==' ' ||Simbolo=='\n') && cadena!="g{}uardada" &&cadena!=""){
 						
 						
 							//guardar indentificador
-							guardarVariable(cadena);
+							guardarIdentificador(cadena);
 							cadena="g{}uardada";
-							Estado = q4;
+							
+							 if(Simbolo==';'){ 
+						
+							Estado =qx; 
+							cadena.clear();
+								 }
+								 else{
+								 
+							Estado = q4;}
 										
 						 
 					}
@@ -271,12 +284,283 @@ int main()
 				//
 				break;
 				
-			case qx:
-				// estado de cierre
-			  
-				if(Simbolo==';'){ Estado =qx;  }
+			case q5:
+				//  estado funcion  1, replicando q1
+					
+			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
+				 	
+				 
+				 	cadena+=Simbolo;
+				 	Estado = q5;
+				}
+				else if ((Simbolo >= '0' && Simbolo <= '9' )&& cadena!=""){
+				 	
+				 	cadena+=Simbolo;
+				 	Estado = q5;
+				}
+				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
+						Estado = q5;
+				}
 				
-				else if(Simbolo=='}'){ Estado =qf;}
+				else{
+					
+					if((Simbolo==' ' ||Simbolo=='\n'|| Simbolo=='(') && cadena!="g{}uardada"){
+						
+					
+							//guardar indentificador
+							guardarIdentificador(cadena);
+							cadena="g{}uardada";
+							
+							if(Simbolo=='('){
+								Estado =q6; 
+								cadena.clear();
+							}
+							else{
+						
+							Estado = q5;	}			
+						 
+					}
+					else if((Simbolo==' ' ||Simbolo=='\n')){
+							Estado = q5;
+						
+					}
+					else if(Simbolo=='(' && cadena=="g{}uardada"){ 
+						
+						Estado =q6; 
+						cadena.clear();
+					 }
+					
+					else{
+							Estado = qe;
+					}
+					
+				}
+				
+
+				
+				break;
+				
+			case q6:
+				//  estado de funcion  2, replicando q1 PARAMETROS
+						
+			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
+				 	
+				 	
+				 	cadena+=Simbolo;
+				 	
+				 	Estado = q6;
+				}
+				else if ((Simbolo >= '0' && Simbolo <= '9' )&& cadena!=""){
+				 	
+				 	cadena+=Simbolo;
+				 	Estado = q6;
+				}
+				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
+						Estado = q6;
+				}
+				
+				else{
+				
+					
+					if((Simbolo==' ' ||Simbolo=='\n' || Simbolo==')'||Simbolo==',') && cadena!="g{}uardada" && cadena!=""){
+				
+							//guardar parametro
+	
+							guardarIdentificador(cadena);
+							cadena="g{}uardada";
+							
+						if(Simbolo==')'){ 
+						CFP=3;
+					
+								 }
+					
+						if (Simbolo==',' ){ 
+						
+						cadena.clear();
+						
+						}
+						
+						if(Estado==qe){ break;}
+						
+						Estado =q6;
+					 }
+						
+						
+									
+						 
+				
+					else if(Simbolo==' ' ||Simbolo=='\n'){
+							Estado = q6;
+						
+					}
+					else if(Simbolo==',' && cadena=="g{}uardada" && CFP>1){
+						
+							cadena.clear();
+							Estado = q6;
+						
+					}
+					else if(Simbolo==')' && cadena=="g{}uardada"){ 
+						CFP=3;
+						Estado =q6; 
+						
+					 }
+					 
+					 	else if(Simbolo==':' && cadena=="g{}uardada" && CFP==3){ 
+							Estado =q7;
+							CFP==2;
+							CFA++; 
+							cadena.clear();
+					 }
+					
+					else{
+							Estado = qe;
+					}
+					
+				}
+				
+
+				
+				break;
+				
+			// en el interior de la funcion:	
+			case q7:
+				
+				// ENTRADA GENREAL DESPUES DE APERTURA ":"
+				// posibles son IF , var, while,print ,return , CADENAS Y DEMAS
+				
+			  	if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+				 	
+				 
+				 	cadena+=Simbolo;
+				 	Estado = q7;
+				}
+				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
+						Estado = q7;
+				}
+				else if(Simbolo==';'&& cadena==""){
+						Estado = qx;
+						CFA--; 
+				}
+				else{
+					
+					
+					
+					if(Simbolo==' ' ||Simbolo=='\n'){
+						
+							Estado = definirEstado(cadena);
+							
+								cadena.clear();
+						 
+					}
+					
+					else{
+						
+							Estado = qe;
+					}
+					
+				}
+				//
+				break;
+				
+				
+				case q8:
+				
+			
+				// identificador  de variable 
+				if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
+				 	
+				 
+				 	cadena+=Simbolo;
+				 	Estado = q8;
+				}
+				else if ((Simbolo >= '0' && Simbolo <= '9' )&& cadena!=""){
+				 	
+				 	cadena+=Simbolo;
+				 	Estado = q8;
+				}
+				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
+						Estado = q8;
+				}
+				
+				else{
+					
+					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo==';') && cadena!="g{}uardada"){
+						
+							//guardar indentificador
+							guardarIdentificador(cadena);
+							cadena="g{}uardada";
+							
+							if(Simbolo==';'){
+								
+								Estado = qx;
+								cadena.clear();
+							}
+							else{
+						
+							Estado = q8;	}			
+						 
+					}
+					else if((Simbolo==' ' ||Simbolo=='\n')){
+							Estado = q8;
+						
+					}
+					else if(Simbolo==';' && cadena=="g{}uardada"){ 
+					
+						Estado =qx; 
+						cadena.clear();
+					 }
+					
+					else{
+							Estado = qe;
+					}
+					
+				}
+				
+
+				
+				break;
+
+	
+	
+	// interior de la funcion ;
+				
+			case qx:
+				// estado de cierre o returno a import,var,func ==q2
+				if(Simbolo=='}' && CFA==0){ Estado =qf;}
+			  
+				else if(Simbolo==' '||Simbolo=='\n'){ Estado =qx;  
+				
+				}
+				else if(Simbolo==';' && CFA>0){
+					
+					CFA--;
+					Estado =qx;
+				
+				}
+				
+				else if (Simbolo >= 'a' && Simbolo <= 'z' ){
+					
+					if(CFA==0)
+					{		
+						//fuera de las funciones
+							Estado=q2;
+					
+					}else {
+						
+						//en el interrior de una funcion
+						  Estado=q7;
+					}
+				
+					i--; //reevaluar el caracter en el siguiente estado
+				
+				}
+				
+				else{
+					
+					Estado=qe;
+				}
+				
+			
 				//
 				break;
 				
@@ -376,8 +660,63 @@ TEstado definirEstado(string cadena){
 	
 	if(palabraClave(cadena)){
 	
+	//estado q7
+	
+	if(Estado==q7){
+		
+			if(cadena=="while"){
+			
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+
+			return q3;
+		}
+		else if(cadena=="if"){
+			
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+
+			return q3;
+		}
+		
+		else if(cadena=="return"){
+			
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+
+			return q5;
+		}
+		else if(cadena=="print"){
+			
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+
+			return q5;
+		}
+		
+		else if(cadena=="var"){
+			
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+
+			return q8;
+		}
+		
+		else{ return qe;}
+	}
+	
 	// estado q3
-	if (Estado==q3){
+	else if (Estado==q3){
 		
 			if(cadena=="layer"){
 			
@@ -412,7 +751,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return q3;
+			return q8;
 		}
 		
 		else if(cadena=="func"){
@@ -422,7 +761,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return q3;
+			return q5;
 		}
 		
 		else{ return qe;}
@@ -508,37 +847,104 @@ bool palabraClave(string cadena){
 	return false;
 }
 
-void guardarVariable(string cadena){
+void guardarIdentificador(string cadena){
 	
-	vector<string> variable;
+	//identificadores ,parametros y variables se guardan aqui
+	
+	vector<string> Identificador;
 
 	
 	if(Estado==q1){
 		
-		variable.push_back(cadena);
-		variable.push_back(" identificador");
-		variable.push_back(" clase");
-		variable.push_back(decLine());
+		Identificador.push_back(cadena);
+		Identificador.push_back(" identificador");
+		Identificador.push_back(" clase");
+		Identificador.push_back(decLine());
 		
 	}
 	
 	else if(Estado==q4){
 		
-		variable.push_back(cadena);
-		variable.push_back(" identificador");
-		variable.push_back(" referencia");
-		variable.push_back(decLine());
+		Identificador.push_back(cadena);
+		Identificador.push_back(" identificador");
+		Identificador.push_back(" referencia");
+		Identificador.push_back(decLine());
 		
 	}
 	
+	else if(Estado==q5){
+		
+		Identificador.push_back(cadena);
+		Identificador.push_back(" identificador");
+		Identificador.push_back(" funcion");
+		Identificador.push_back(decLine());
+		
+	}
 	
+	else if(Estado==q6){
+		
+		
+		if(CFP==0){
+			if(cadena=="main"){
+				CFP=1;
+					Identificador.push_back(cadena);
+					Identificador.push_back(" parametro");
+					Identificador.push_back(" funcion Principal");
+					Identificador.push_back(decLine());
+					
+			}
+			else {
+				
+			 Estado=qe;
+			}
+			
+		}
+		else if(cadena=="main"){
+		
+			        
+				Estado=qe;
+				
+		}
+		
+		else{	
+		
+					Identificador.push_back(cadena);
+					Identificador.push_back(" parametro");
+					Identificador.push_back(" funcion");
+					Identificador.push_back(decLine());
+		}
+	}
 	
-	 listaVariables.push_back(variable);
+	else if(Estado==q8){
+		
+		if(CFA==0){
+			
+					Identificador.push_back(cadena);
+					Identificador.push_back(" variable");
+					Identificador.push_back(" global");
+					Identificador.push_back(decLine());
+			
+		}
+		else{
+			
+					Identificador.push_back(cadena);
+					Identificador.push_back(" variable");
+					Identificador.push_back(" local");
+					Identificador.push_back(decLine());
+			
+			
+		}
+		
+		listaVariables.push_back(Identificador);
+		
+	}
+	
+	if(Estado!=q8){   listaIdentificadores.push_back(Identificador);	}
 	 //pruebas
 	 int i= 0;
-	 while(i<variable.size()){
+	 while(i<Identificador.size()){
 	 	
-	 	cout<< variable[i];
+	 	cout<< Identificador[i];
 	 	i++;
 	 }
 	
