@@ -1,0 +1,38 @@
+ core ONION Principal {
+
+    import layer.Brazo;
+
+    var brazoD= new Brazo();
+
+    func principal(main):
+
+        var n=1;
+        do:
+
+        brazo.mover(n);
+
+        :while(brazoD.bateria()>20);
+
+        if(brazoD.bateria()<=20):
+
+            brazoD.cargar();
+        ;
+
+
+        switch  (brazoD.bateria):
+         
+         case 100:
+
+            print.("cargado");
+
+            break;
+         ;
+
+         print.("error de carga");
+        
+        ;
+    ;
+
+
+}
+
