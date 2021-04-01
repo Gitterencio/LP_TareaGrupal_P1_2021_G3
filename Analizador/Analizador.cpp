@@ -51,6 +51,8 @@ vector<vector<string> > listaValoresV;
 
 	int CVV=0; //centinela para valor de la variable
 	int CVP=0;  //CRNTINELA PARA LOS PARENTERSISI dentro de el valor variable y para primnt
+	
+	int CVF=0;  //CENTINELA DE VARIABLES Y FUNCIONES UTILIZADAS DIRECTAMENTE EN Q7
 		   
 
 
@@ -80,6 +82,10 @@ int main()
 	while (longitud > i and Estado != qe){
 		
 		Simbolo = codigo[i];
+	
+			
+		
+		
 		
 		if(Simbolo=='\n'){linea++;}
 
@@ -445,6 +451,11 @@ int main()
 				 	cadena+=Simbolo;
 				 	Estado = q7;
 				}
+					else if ((Simbolo >= '0' && Simbolo <= '9' )&& cadena!=""){
+				 	
+				 	cadena+=Simbolo;
+				 	Estado = q6;
+				}
 				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
 						Estado = q7;
 				}
@@ -456,7 +467,7 @@ int main()
 					
 				
 					
-					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('){
+					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('||Simbolo=='.'||Simbolo=='='){
 					
 							Estado = definirEstado(cadena);
 								
@@ -464,7 +475,22 @@ int main()
 									
 									i--;
 									
+									
 								}
+							   else if(Simbolo=='.'){
+									
+									i--;
+									
+									
+								}
+								else if(Simbolo=='='){
+									
+								
+									i--;
+									
+								}
+								
+								
 								
 									cadena.clear();
 						 
@@ -849,7 +875,7 @@ int main()
 		   	
 		   }
 		   
-		   else if(CVV=100){
+		   else if(CVV==100){
 		   	
 		   	  if(Simbolo=='+'||Simbolo=='-'||Simbolo=='*'||Simbolo=='/'){
 		   	  	   CVV=0;
@@ -907,8 +933,252 @@ int main()
 				
 		   	break;
 				
-				;
-	
+			;
+			
+			
+			case qb:
+			// cargar  print y return	
+				if(Simbolo=='.'&&CVP==10){
+						 Estado=qb;
+						 CVP=11;
+						
+					}
+				else if(Simbolo=='('&&CVP==11){
+					
+					     Estado=qa;
+						 CVP=1;
+				}
+				
+				else if(Simbolo!=' '){
+					   	i--;	
+						 Estado=qa;
+					
+				}
+			
+			   	break;
+				
+			;
+			
+			
+			case qc:
+				
+			// recargar varible o usar dunciones a dentro de una funcion
+				
+				if(Simbolo=='='&&(CVF==1||CVF==2)){
+						 Estado=qa;
+						 	cout<<"\n simbolo::"<<Simbolo<<endl;
+					cout<<"\n CVF::"<<CVF<<endl;
+						 CVF=0;
+						
+					}
+					
+				else if(Simbolo==' '&&(CVF==1||CVF==2)){
+					
+						 CVF=2;
+					     Estado=qc;
+				}
+				
+				else if(Simbolo=='.'&&CVF==1){
+					
+					   CVF=10;
+					    Estado=qc;
+				}
+				
+				else if(CVF==10||CVF==11){
+					
+					
+					if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+					cadena+=Simbolo;
+					Estado=qc;
+					CVF=11;
+					
+				   }
+				
+				   else if ((Simbolo >= '0' && Simbolo <= '9')&&CVF==11){
+					
+					cadena+=Simbolo;
+				 	Estado=qc;
+					
+			    	}
+				    else if ((Simbolo==' '||Simbolo=='\n'||Simbolo=='(')&& CVF==11){
+					
+					 	
+						 
+						 
+						 	if(Simbolo=='('){
+								 	//existefuncion(cadena)
+							if(true){
+								
+									cadena.clear();
+						         	Estado=qc;
+						 			CVF=01;
+								
+							}
+								 
+								 else{
+								 	
+								 		CVF=0;
+					 	cadena.clear();
+						Estado=qe;
+								 	
+								 }
+							 }
+							 
+							 else {
+							 	
+							 	if(existeVariable(cadena)){
+					 				
+									cadena.clear();
+						         	Estado=qc;
+						 			CVF=2;
+						       	
+					 				
+								 }
+							 }
+					 	
+			     	}
+			     	
+			     	else{
+			     		
+			     		CVF=0;
+						cadena.clear();
+						Estado=qe;
+			     		
+					 }
+					
+					
+				}
+				
+				else if(Simbolo=='(' &&CVF==0){	
+						 Estado=qc;
+						 CVF=01;
+				}
+				else if(CVF==01||CVF==02||CVF==03||CVF==04){
+				
+				//lista de parametros dentro de una funcion
+				
+				if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+					cadena+=Simbolo;
+					Estado=qc;
+					CVF=02;
+					
+				}
+				
+				else if ((Simbolo >= '0' && Simbolo <= '9')&&CVF==02){
+					
+					cadena+=Simbolo;
+					Estado=qc;
+					
+				}
+				else if ((Simbolo==' '||Simbolo=='\n')&& (CVF==01||CVF==03||CVF==04)){
+					
+					 Estado=qa;
+				}
+				else if ((Simbolo==')')&& (CVF==01||CVF==04)){
+					
+					 Estado=qc;
+
+					CVF=100;
+				}
+				else if ((Simbolo==')')&& CVF==02){
+					//existeVariable(cadena)
+					if(true){
+						
+						CVF=100;
+		   			       Estado=qc;
+						
+					}
+					
+					else{
+						CVF=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+			
+				}
+				
+				else if(Simbolo==','&&(	CVF==02||CVF==04)){
+					
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVF=03;
+		   			        Estado=qc;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVF=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+				}
+				else if((Simbolo==' '||Simbolo=='\n')&&CVF==02){
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVF==04;
+		   			        Estado=qc;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVF=02;
+						cadena.clear();
+						Estado=qe;
+					}
+				}
+				
+				else{
+					
+					   	CVF=02;
+						cadena.clear();
+						Estado=qe;
+					
+				}
+			
+				
+				
+				
+				
+				
+			}
+			else if (CVF==100){
+				
+				if(Simbolo==';'){
+			
+					   CVF=0;
+						Estado =qx; 
+						cadena.clear();
+						
+					 }
+					 
+					else if(Simbolo==' '||Simbolo=='\n'){
+						 Estado=qc;
+						
+					}
+					
+					else{
+						
+						CVF=0;
+						cadena.clear();
+						 Estado=qe;
+					}
+			}
+				
+				else{
+					
+					Estado=qe;
+					
+				}
+			
+			   	break;
+				
+			;
 	//////////////////////////////////////////////////////////////////////////////////////////
 				
 			case qx:
@@ -1085,7 +1355,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return q5;
+			return qb;
 		}
 		else if(cadena=="print"){
 			
@@ -1093,8 +1363,8 @@ TEstado definirEstado(string cadena){
 			elemento.push_back("Reservado");
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
-
-			return q5;
+			CVP=10;
+			return qb;
 		}
 		
 		else if(cadena=="var"){
@@ -1217,8 +1487,32 @@ TEstado definirEstado(string cadena){
 	
 		}
 	else{
+		
+		if(Estado==q7){
+			
+			
+			if(true){
+				
+				cout<<"cadena ref::"<<cadena;
+					CVF=1;
+			    return qc;
+			 //ES  VARIABLE qc
+			}
+			
+			//existefuncion(cadena)
+			else if(true){
+				
+		          return qc;
+			}
+			else {
+				
+				return qe;
+			}
+		}
+		
+		else{
 	
-		return qe;
+		return qe;	}
 	}
 	
 }

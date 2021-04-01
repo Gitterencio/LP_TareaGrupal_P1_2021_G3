@@ -3,35 +3,17 @@ ONION core  Principal {import layer.Brazo;
     var brazoD ;
 func principal(main):
 var n;
-        do:
-
-        brazo.mover(n);
-
-        :while(brazoD.bateria()>20);
-
-        if(brazoD.bateria()<=20):
-
-            brazoD.cargar();
-        ;
-
-
-        switch  (brazoD.bateria):
-         
-         case 100:
-
-            print.("cargado");
-
-            break;
-         ;
+       
+   n=2 ;
 
          print.("error de carga");
         
-        ;
+        
     ;
 
 
 }
-   ONION layer ;}
+  
 
 
 

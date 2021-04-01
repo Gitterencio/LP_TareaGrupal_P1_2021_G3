@@ -14,8 +14,25 @@ var tana = F1(v5, b3);
 var te= JSON; 
 
 var te= ((te.te(mana))+(2));
+print.(valor());
 
+te= "hola";
+
+tana.f1();
+
+te.te = 12;
+ print.(valor());
+
+return "hola mundo";
 
 ;func F2 ( main0, ad):;}
 ONION layer ho2 { import layer.sd ;  
 }
+
+
+
+
+
+
+
+
