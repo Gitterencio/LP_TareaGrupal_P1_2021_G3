@@ -15,11 +15,12 @@ string codigo;
 
 
 	//tabla de simbolos
-	string TablaSimbolos[] = {"ONION","core","layer","import","func","var","if","while","return","print"};
+	string TablaSimbolos[] = {"ONION","core","layer","import","func","var","if","while","elif","else","return","print"};
 	
 	//tipo de dastos estado
-	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,qx,qf,qe};
+	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,qa,qb,qc,qx,qf,qe};
 	// del estado q7 hasta qx son al interior de una funcion
+	// qa qb qc se deben enumerar posteriormente
 	
 		
 	//variable estados
@@ -33,14 +34,24 @@ string decLine();
 int linea;
 
 void guardarIdentificador(string cadena);
+bool existefuncion(string cadena);
 vector<vector<string> > listaIdentificadores;
+
+bool existeVariable(string cadena);
 vector<vector<string> > listaVariables;
+
+void guardarValorV(string cadena);
+vector<vector<string> > listaValoresV;
 
 
 //centinelas
 	int CFP=0; //CENTINELA MAIN
 	int CFA=0; // CENTINELA DE APERTURA DE FUNCION,IF,WHILE
+	
 
+	int CVV=0; //centinela para valor de la variable
+	int CVP=0;  //CRNTINELA PARA LOS PARENTERSISI dentro de el valor variable y para primnt
+		   
 
 
 int main()
@@ -158,11 +169,11 @@ int main()
 			
 			
 			case q2:
-				
+			
 				
 				// posibles son import , var, func , solo se pueden resibir estas claves
 			  	if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
-				 	
+				 
 				 
 				 	cadena+=Simbolo;
 				 	Estado = q2;
@@ -176,7 +187,7 @@ int main()
 					
 					if(Simbolo==' ' ||Simbolo=='\n'){
 						
-						
+							
 							Estado = definirEstado(cadena);
 							
 								cadena.clear();
@@ -443,17 +454,24 @@ int main()
 				}
 				else{
 					
+				
 					
+					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('){
 					
-					if(Simbolo==' ' ||Simbolo=='\n'){
-						
 							Estado = definirEstado(cadena);
-							
-								cadena.clear();
+								
+								if(Simbolo=='('){
+									
+									i--;
+									
+								}
+								
+									cadena.clear();
 						 
 					}
 					
 					else{
+				
 						
 							Estado = qe;
 					}
@@ -484,7 +502,7 @@ int main()
 				
 				else{
 					
-					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo==';') && cadena!="g{}uardada"){
+					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo==';'||Simbolo=='=') && cadena!="g{}uardada"){
 						
 							//guardar indentificador
 							guardarIdentificador(cadena);
@@ -493,6 +511,13 @@ int main()
 							if(Simbolo==';'){
 								
 								Estado = qx;
+								
+								cadena.clear();
+							
+							}
+							else if(Simbolo=='='){
+								//cambiar a numero//////////
+								Estado = qa;
 								cadena.clear();
 							}
 							else{
@@ -505,8 +530,14 @@ int main()
 						
 					}
 					else if(Simbolo==';' && cadena=="g{}uardada"){ 
-					
 						Estado =qx; 
+						
+						cadena.clear();
+					 }
+					 
+					 	else if(Simbolo=='=' && cadena=="g{}uardada"){ 
+							//cambiar a numero//////////
+						Estado =qa; 
 						cadena.clear();
 					 }
 					
@@ -519,16 +550,375 @@ int main()
 
 				
 				break;
+				
+				
+				case q9:
+		
+				if(Simbolo=='('){
+					
+					Estado=q10;
+					
+				}
+				else if(Simbolo==' '||Simbolo=='\n'){
+					
+						Estado=q9;
+				}
+				
+				else{
+					
+				
+					Estado=qe;
+				}
+				
+
+				break;
+				
+				
+				
+				case q10:
+				
+				
+			      cout<<"en 10";
+				
+				Estado =qe;
+				break;
+				
+				;
+				
 
 	
 	
 	// interior de la funcion ;
+	
+	///////////////////////////////////////llenado variable//////////////////////////////
+	//hay que cambiar el numero de estados posteriormente
+			case qa:
+			// aqui se cargan todos los datos el tipo de dato
+			// var x= qa ;, print.( qa); , return qa;
+		
+		
+		   if(CVV==0) {
+		   
+		   	    if(Simbolo=='"'){
+		   	    	
+		   		 	cadena+=Simbolo;
+		   			Estado=qa;
+		   			CVV=1;
+				   }
+				else if(Simbolo >= '0' && Simbolo <= '9'){
+					
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			CVV=2;
+					
+				}
+				else if(Simbolo=='-'){
+				//numero negativo
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			CVV=2;
+					
+				}
+				
+				else if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+				
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			CVV=3;
+					
+				}
+			else if(Simbolo==' '||Simbolo=='\n'){
+					
+						Estado=qa;
+				}
+			else if(Simbolo=='('){
+					
+						Estado=qa;
+						CVP++;
+				}
+				
+				else{
+					
+						Estado=qe;
+				}
+		   	
+		   	
+		   }
+		   else if(CVV==1){
+			//estrings
+		   		if(Simbolo=='"'){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			CVV=100;
+		   			
+				   }
+				else{
+					
+					cadena+=Simbolo;
+		   			Estado=qa;
+					
+				}
+		   	
+		   }
+		   else if(CVV==2||CVV==21){
+			//numeros
+		   		if(Simbolo >= '0' && Simbolo <= '9'){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			
+		   			
+				   }
+				else if(Simbolo=='.'&& cadena[cadena.size()-1]!='-' && CVV==2){
+						cadena+=Simbolo;
+		   			    Estado=qa;
+		   			    CVV=21;
+						
+				}
+				else{
+					CVV=100;
+					i--;
+		   			Estado=qa;
+					
+				}
+		   	
+		   }
+		    else if(CVV==3||CVV==30||CVV==31||CVV==32||CVV==33){
+			//variable o funcion
+			
+		   		if(((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )||(Simbolo >= '0' && Simbolo <= '9'))&&CVV==3){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=qa;
+		   			
+		   			
+				   }
+			else if(Simbolo=='(' ){
+						
+						// existefuncion(cadena)	
+						if(true){
+						
+						cadena.clear();
+		   			    Estado=qa;
+		   			    CVV=30;
+		   			    	}
+		   			    else{
+		   			    		CVV=0;
+						cadena.clear();
+						Estado=qe;
+		   			    	
+						   }
+						
+				}
+				
+				else if(Simbolo=='.'){
+					//existeVariable(cadena)
+						 if(true){
+						
+							CVV=3;
+		   			        Estado=qa;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+					
+				}
+				
+				//funcion
+			else if(CVV==30||CVV==31||CVV==32||CVV==33){
+				
+				//lista de parametros dentro de una funcion
+				
+				if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+					cadena+=Simbolo;
+					Estado=qa;
+					CVV=31;
+					
+				}
+				
+				else if ((Simbolo >= '0' && Simbolo <= '9')&&CVV==31){
+					
+					cadena+=Simbolo;
+					Estado=qa;
+					
+				}
+				else if ((Simbolo==' '||Simbolo=='\n')&& (CVV==30||CVV==32||CVV==33)){
+					
+					 Estado=qa;
+				}
+				else if ((Simbolo==')')&& (CVV==30||CVV==33)){
+					
+					 Estado=qa;
+
+					 CVV=100;
+				}
+				else if ((Simbolo==')')&& CVV==31){
+					//existeVariable(cadena)
+					if(true){
+						
+							CVV=100;
+		   			       Estado=qa;
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+			
+				}
+				
+				else if(Simbolo==','&&(CVV==31||CVV==33)){
+					
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVV=32;
+		   			        Estado=qa;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+				}
+				else if((Simbolo==' '||Simbolo=='\n')&&CVV==31){
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVV=33;
+		   			        Estado=qa;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+				}
+				
+				else{
+					
+					    CVV=0;
+						cadena.clear();
+						Estado=qe;
+					
+				}
+			
+				
+				
+				
+				
+				
+			}
+			//variable
+				else{
+					//existeVariable(cadena)
+					if(true){
+						
+							CVV=100;
+								i--;
+		   			       Estado=qa;
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+		   		
+					
+				}
+		   	
+		   }
+		   
+		   else if(CVV=100){
+		   	
+		   	  if(Simbolo=='+'||Simbolo=='-'||Simbolo=='*'||Simbolo=='/'){
+		   	  	   CVV=0;
+		   	  	   //vector<vector<string> > listaValoresV;
+		   	  	   Estado=qa;
+		   	  	   cadena.clear();
+				 }
+		       	else if(Simbolo==';'&&CVP==0){
+				
+				//else if(Simbolo==';' && cadena=="g{}uardada"){ 
+					   CVV=0;
+						Estado =qx; 
+						cadena.clear();
+						
+					 }
+					 
+					else if(Simbolo==' '||Simbolo=='\n'){
+						 Estado=qa;
+						
+					}
+					else if(Simbolo==')'||CVP>0){
+						 CVV=100;
+						 CVP--;
+						 Estado=qa;
+						
+					}
+					
+					else {
+						
+						Estado =qe; 
+						cadena.clear();
+						
+					}
+					 
+					 
+				
+			}
+			else if(Simbolo==' '||Simbolo=='\n'){
+						
+						 Estado=qa;
+						
+					}
+					
+			else {
+				
+					Estado =qe; 
+					cadena.clear();
+				
+			}
+					
+		   
+		   
+		   		
+		   	
+				
+		   	break;
+				
+				;
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
 				
 			case qx:
 				// estado de cierre o returno a import,var,func ==q2
-				if(Simbolo=='}' && CFA==0){ Estado =qf;}
+				
+				if(Simbolo=='}' && CFA==0){ Estado=qf;}
 			  
-				else if(Simbolo==' '||Simbolo=='\n'){ Estado =qx;  
+				else if(Simbolo==' '||Simbolo=='\n'){ 
+				
+				    Estado =qx;  
 				
 				}
 				else if(Simbolo==';' && CFA>0){
@@ -539,11 +929,15 @@ int main()
 				}
 				
 				else if (Simbolo >= 'a' && Simbolo <= 'z' ){
+						
 					
 					if(CFA==0)
-					{		
+					{	
+					
 						//fuera de las funciones
 							Estado=q2;
+							
+						
 					
 					}else {
 						
@@ -552,6 +946,7 @@ int main()
 					}
 				
 					i--; //reevaluar el caracter en el siguiente estado
+					
 				
 				}
 				
@@ -637,7 +1032,7 @@ int main()
 
 if (Estado== qe){
 	
-	cout<<"sin apertura \n";
+	cout<<" wwww sin apertura linea \n "<< decLine();
 }
 else if(Estado==qf){
 	
@@ -671,16 +1066,16 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return q3;
+			return q9;
 		}
 		else if(cadena=="if"){
-			
+		
 			elemento.push_back(cadena);
 			elemento.push_back("Reservado");
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return q3;
+			return q9;
 		}
 		
 		else if(cadena=="return"){
@@ -750,7 +1145,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back("Reservado");
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
-
+	
 			return q8;
 		}
 		
@@ -822,7 +1217,7 @@ TEstado definirEstado(string cadena){
 	
 		}
 	else{
-		
+	
 		return qe;
 	}
 	
@@ -845,6 +1240,52 @@ bool palabraClave(string cadena){
 	}
 	
 	return false;
+}
+bool existeVariable(string cadena){
+	vector<string> vr;
+	int v=0;
+	while(listaVariables.size()>v){
+	
+		vr=listaVariables[v];
+		
+		if(vr[0]==cadena){
+			 cout<<"///////existe///////";
+			return true;
+		}
+		
+		v++;
+	}
+	cout<<"///////no    existe///////";
+	
+	if(cadena=="JSON"||cadena=="true"||cadena=="false"){
+		
+		return true;
+	}
+	return false;
+	
+}
+
+bool existefuncion(string cadena)
+{
+	vector<string> fc;
+	int v=0;
+	while(listaIdentificadores.size()>v){
+	
+		fc=listaIdentificadores[v];
+		
+		if(fc[0]==cadena&&fc[2]==" funcion"){
+			 cout<<"///////existe///////";
+			return true;
+		}
+		
+		v++;
+	}
+	
+	cout<<"simblo::  "<<cadena<<endl;
+	cout<<"///////no    existe///////";
+	
+	return false;
+	
 }
 
 void guardarIdentificador(string cadena){

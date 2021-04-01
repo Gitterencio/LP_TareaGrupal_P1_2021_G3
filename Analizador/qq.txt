@@ -1,7 +1,21 @@
 ONION core ho1 { import layer.ho2 ;  
-import layer.ho3 ;
- var v1;var v3;
+import layer.ho3;
+var v1; var v3;
 func F1 (main):var v2;
+
+var v3 = "hola" + "funsion";
+
+var b3 = -12.3*-10+ "lals";
+
+var v5= b3 + v3;
+
+var tana = F1(v5, b3); 
+
+var te= JSON; 
+
+var te= ((te.te(mana))+(2));
+
+
 ;func F2 ( main0, ad):;}
 ONION layer ho2 { import layer.sd ;  
 }

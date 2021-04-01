@@ -1,0 +1,7 @@
+ONION core ho1 { import layer.ho2 ;  
+import layer.ho3 ;
+ var v1;var v3;
+func F1 (main):var v2;
+;func F2 ( main0, ad):;}
+ONION layer ho2 { import layer.sd ;  
+}
