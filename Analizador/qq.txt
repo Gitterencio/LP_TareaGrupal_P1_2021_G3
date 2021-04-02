@@ -5,6 +5,15 @@ func F1 (main):var v2;
 
 var v3 = "hola" + "funsion";
 
+if (true>="true"): ;
+
+elif(1): print.("hola mundo");
+
+;
+elif(1): ;
+else ;
+
+while(true>="true"):;
 var b3 = -12.3*-10+ "lals";
 
 var v5= b3 + v3;
@@ -14,6 +23,10 @@ var tana = F1(v5, b3);
 var te= JSON; 
 
 var te= ((te.te(mana))+(2));
+
+te-= 9;
+
+var ss= tana.tana;
 print.(valor());
 
 te= "hola";

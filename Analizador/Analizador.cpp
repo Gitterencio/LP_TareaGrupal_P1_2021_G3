@@ -18,7 +18,7 @@ string codigo;
 	string TablaSimbolos[] = {"ONION","core","layer","import","func","var","if","while","elif","else","return","print"};
 	
 	//tipo de dastos estado
-	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,qa,qb,qc,qx,qf,qe};
+	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,qa,qb,qc,qx,qf,qe};
 	// del estado q7 hasta qx son al interior de una funcion
 	// qa qb qc se deben enumerar posteriormente
 	
@@ -53,7 +53,9 @@ vector<vector<string> > listaValoresV;
 	int CVP=0;  //CRNTINELA PARA LOS PARENTERSISI dentro de el valor variable y para primnt
 	
 	int CVF=0;  //CENTINELA DE VARIABLES Y FUNCIONES UTILIZADAS DIRECTAMENTE EN Q7
-		   
+	
+	vector<char> UA; //centinelas ultimo abierto if,elif,else o while
+		   char  UC=' '; //centinela ultimo cerrado
 
 
 int main()
@@ -426,6 +428,7 @@ int main()
 							Estado =q7;
 							CFP==2;
 							CFA++; 
+							UA.push_back('f');
 							cadena.clear();
 					 }
 					
@@ -461,34 +464,28 @@ int main()
 				}
 				else if(Simbolo==';'&& cadena==""){
 						Estado = qx;
-						CFA--; 
+						CFA--;
+						if(!UA.empty()){
+						UC=UA[UA.size()-1];
+						UA.pop_back(); 
+							}
 				}
 				else{
 					
 				
 					
-					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('||Simbolo=='.'||Simbolo=='='){
+					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo=='+'||Simbolo=='-'){
 					
 							Estado = definirEstado(cadena);
 								
-								if(Simbolo=='('){
+								if(Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo=='+'||Simbolo=='-'){
 									
 									i--;
 									
 									
 								}
-							   else if(Simbolo=='.'){
-									
-									i--;
-									
-									
-								}
-								else if(Simbolo=='='){
-									
+							  	
 								
-									i--;
-									
-								}
 								
 								
 								
@@ -581,7 +578,7 @@ int main()
 				case q9:
 		
 				if(Simbolo=='('){
-					
+					CVP++;
 					Estado=q10;
 					
 				}
@@ -601,17 +598,363 @@ int main()
 				
 				
 				
-				case q10:
+			case q10:
+				
+				 if(CVV==0) {
+		   
+		   	    if(Simbolo=='"'){
+		   	    	
+		   		 	cadena+=Simbolo;
+		   			Estado=q10;
+		   			CVV=1;
+				   }
+				else if(Simbolo >= '0' && Simbolo <= '9'){
+					
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			CVV=2;
+					
+				}
+				else if(Simbolo=='-'){
+				//numero negativo
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			CVV=2;
+					
+				}
+				
+				else if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+				
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			CVV=3;
+					
+				}
+			else if(Simbolo==' '||Simbolo=='\n'){
+					
+						Estado=q10;
+				}
+			else if(Simbolo=='('){
+					
+						Estado=q10;
+						CVP++;
+				}
+				
+				else{
+					
+						Estado=qe;
+				}
+		   	
+		   	
+		   }
+		   else if(CVV==1){
+			//estrings
+		   		if(Simbolo=='"'){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			CVV=100;
+		   			
+				   }
+				else{
+					
+					cadena+=Simbolo;
+		   			Estado=q10;
+					
+				}
+		   	
+		   }
+		   else if(CVV==2||CVV==21){
+			//numeros
+		   		if(Simbolo >= '0' && Simbolo <= '9'){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			
+		   			
+				   }
+				else if(Simbolo=='.'&& cadena[cadena.size()-1]!='-' && CVV==2){
+						cadena+=Simbolo;
+		   			    Estado=q10;
+		   			    CVV=21;
+						
+				}
+				else{
+					CVV=100;
+					i--;
+		   			Estado=q10;
+					
+				}
+		   	
+		   }
+		    else if(CVV==3||CVV==30||CVV==31||CVV==32||CVV==33){
+			//variable o funcion
+			
+		   		if(((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )||(Simbolo >= '0' && Simbolo <= '9'))&&CVV==3){
+		   		    
+					cadena+=Simbolo;
+		   			Estado=q10;
+		   			
+		   			
+				   }
+			else if(Simbolo=='(' ){
+						
+						// existefuncion(cadena)	
+						if(true){
+						
+						cadena.clear();
+		   			    Estado=q10;
+		   			    CVV=30;
+		   			    	}
+		   			    else{
+		   			    		CVV=0;
+						cadena.clear();
+						Estado=qe;
+		   			    	
+						   }
+						
+				}
+				
+				else if(Simbolo=='.'){
+					//existeVariable(cadena)
+						 if(true){
+						
+							CVV=3;
+		   			        Estado=q10;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+					
+				}
+				
+				//funcion
+			else if(CVV==30||CVV==31||CVV==32||CVV==33){
+				
+				//lista de parametros dentro de una funcion
+				
+				if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
+					cadena+=Simbolo;
+					Estado=q10;
+					CVV=31;
+					
+				}
+				
+				else if ((Simbolo >= '0' && Simbolo <= '9')&&CVV==31){
+					
+					cadena+=Simbolo;
+					Estado=q10;
+					
+				}
+				else if ((Simbolo==' '||Simbolo=='\n')&& (CVV==30||CVV==32||CVV==33)){
+					
+					 Estado=q10;
+				}
+				else if ((Simbolo==')')&& (CVV==30||CVV==33)){
+					
+					 Estado=q10;
+
+					 CVV=100;
+				}
+				else if ((Simbolo==')')&& CVV==31){
+					//existeVariable(cadena)
+					if(true){
+						
+							CVV=100;
+		   			       Estado=q10;
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+			
+				}
+				
+				else if(Simbolo==','&&(CVV==31||CVV==33)){
+					
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVV=32;
+		   			        Estado=q10;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+				}
+				else if((Simbolo==' '||Simbolo=='\n')&&CVV==31){
+					//existeVariable(cadena)
+					 if(true){
+						
+							CVV=33;
+		   			        Estado=q10;
+		   			        cadena.clear();
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+				}
+				
+				else{
+					
+					    CVV=0;
+						cadena.clear();
+						Estado=qe;
+					
+				}
+			
 				
 				
-			      cout<<"en 10";
 				
-				Estado =qe;
-				break;
+				
+				
+			}
+			//variable
+				else{
+					//existeVariable(cadena)
+					if(true){
+						
+							CVV=100;
+								i--;
+		   			       Estado=q10;
+						
+					}
+					
+					else{
+						CVV=0;
+						cadena.clear();
+						Estado=qe;
+					}
+					
+		   		
+					
+				}
+		   	
+		   }
+		   
+		   else if(CVV==100||CVV==101||CVV==102){
+		   	
+		   	  if((Simbolo=='!'||Simbolo=='='||Simbolo=='<'||Simbolo=='>')&&CVV==100){
+		   	  	  	
+		   	  	  	if(Simbolo=='<'||Simbolo=='>'){
+		   	  	  		CVV=102;
+		   	  	  		
+						   }
+						   else{
+						   	CVV=101;
+							   }
+		   	  	    Estado=q10;
+		   	  	    cadena.clear();
+				 }
+				 
+				 else if(CVV==101||CVV==102){
+				 	
+				 	if(Simbolo=='='){
+				 		CVV=0;
+				 		Estado=q10;
+					 }
+					 else if(CVV==102){
+					 	CVV=0;
+				 		Estado=q10;
+					 }
+				 	
+				 	
+				 }
+		       	else if(Simbolo==':'&&CVP==0){
+				
+				//else if(Simbolo==';' && cadena=="g{}uardada"){ 
+					    CVV=0;
+						Estado =q11; 
+						i--;
+						cadena.clear();
+						
+					 }
+					 
+					else if(Simbolo==' '||Simbolo=='\n'){
+						 Estado=q10;
+						
+					}
+					else if(Simbolo==')'||CVP>0){
+						 CVV=100;
+						 CVP--;
+						 Estado=q10;
+						
+					}
+					
+					else {
+						
+						Estado =qe; 
+						cadena.clear();
+						
+					}
+					 
+					 
+				
+			}
+			else if(Simbolo==' '||Simbolo=='\n'){
+						
+						 Estado=q10;
+						
+					}
+					
+			else {
+				
+					Estado =qe; 
+					cadena.clear();
+				
+			}
+					
+		   
+		   
+		   		
+		   	
+				
+		   	break;
+				
 				
 				;
 				
-
+				case q11:
+				
+					if(Simbolo==':'){
+						CFA++;
+						Estado=q7;
+					}
+					else if (Simbolo==' '||Simbolo=='\n'){
+						
+						Estado=q11;
+					}
+					
+					else{
+						
+						
+						Estado=qe;
+					}
+					
+					break;
+				
+				
+				;
 	
 	
 	// interior de la funcion ;
@@ -966,11 +1309,51 @@ int main()
 				
 				if(Simbolo=='='&&(CVF==1||CVF==2)){
 						 Estado=qa;
-						 	cout<<"\n simbolo::"<<Simbolo<<endl;
-					cout<<"\n CVF::"<<CVF<<endl;
+						 
 						 CVF=0;
 						
 					}
+					
+				else if((Simbolo=='+'||Simbolo=='-')&&CVF==1){
+						cout<<"\n simbolo::"<<Simbolo<<endl;
+					cout<<"\n CVF::"<<CVF<<endl;
+						if(Simbolo=='+'){
+					     CVF=30;	
+						 }
+					     else{
+					     	
+					     CVF=31;		
+						 }
+					     
+					     Estado=qc;
+					
+				}
+				
+				else if(CVF==30||CVF==31){
+						
+						if(Simbolo=='+'&&CVF==30){
+					
+					     CVF=100;
+					     Estado=qc;
+					     	}
+					    else if(Simbolo=='-'&&CVF==31){
+					
+					     CVF=100;
+					     Estado=qc;
+					     	}
+					    else if(Simbolo=='='){
+					
+					     CVF=0;
+					     Estado=qa;
+					    }
+					    else{
+					    	
+					    CVF=0;
+						Estado=qe;
+					    	
+						}
+					
+				}
 					
 				else if(Simbolo==' '&&(CVF==1||CVF==2)){
 					
@@ -1193,6 +1576,11 @@ int main()
 				}
 				else if(Simbolo==';' && CFA>0){
 					
+					if(!UA.empty()){
+						UC=UA[UA.size()-1];
+						UA.pop_back(); 
+							}
+	
 					CFA--;
 					Estado =qx;
 				
@@ -1335,7 +1723,8 @@ TEstado definirEstado(string cadena){
 			elemento.push_back("Reservado");
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
-
+			
+			UA.push_back('w');
 			return q9;
 		}
 		else if(cadena=="if"){
@@ -1344,8 +1733,47 @@ TEstado definirEstado(string cadena){
 			elemento.push_back("Reservado");
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
-
+			
+			UA.push_back('i');
+		
 			return q9;
+		}
+		
+		else if(cadena=="elif"){
+			
+			if(UC=='l'||UC=='i'){
+		
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+			UA.push_back('l');
+			return q9;
+			
+				}
+				else
+				{
+					return qe;
+				}
+		}
+		
+		else if(cadena=="else"){
+		
+				if(UC=='l'||UC=='i'){
+		
+			elemento.push_back(cadena);
+			elemento.push_back("Reservado");
+			elemento.push_back(decLine());
+			listaElementos.push_back(elemento);
+			UA.push_back('e');
+			
+			return q11;
+			
+				}
+				else
+				{
+					return qe;
+				}
 		}
 		
 		else if(cadena=="return"){
