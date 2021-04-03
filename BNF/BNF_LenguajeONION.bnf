@@ -21,13 +21,12 @@ NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <ListaFuncionesExtra>::= <FuncionExtra>|<ListaFunciones><FuncionExtra>|"ξ"
 <FuncionExtra>::= <FuncionSinRetorno>|<FuncionConRetorno> 
 <FuncionSinRetorno>::="func " <Variable> "("<ListaParametros>")"  ":"<ListaInstrucciones><Fin>
-<FuncionConRetorno>::="func " <Variable> "("<ListaParametros>")" ":"<ListaInstrucciones><Retorno>
+<FuncionConRetorno>::="func " <Variable> "("<ListaParametros>")" ":"<ListaInstrucciones><Retorno><Fin>
 <Retorno>::= "return "<Expresion><Fin>
-<ListaParametros>::= <ListaVariables>|<ListaExpresiones>|"ξ"
-<ListaExpresiones>::= <Expresion>|<ListaExpresiones> "," <Expresion>
+<ListaParametros>::= <ListaVariables>|"ξ"
 <ListaInstrucciones>::= <Instruccion>|<ListaInstrucciones><Instruccion>|"ξ"
 
-<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSinRetorno>|<CicloWhile>|<DecisionIf>|<ExpresionAritmetica><Fin>|<Imprimir>|<CicloFor>|<CicloDoWhile>|<Switch>
+<Instruccion>::= <DeclaracionVariable>|<Asignacion>|<Retorno>|<UsarFuncionSinRetorno>|<CicloWhile>|<DecisionIf>|<Imprimir>
 
 <Expresion>::= <ExpresionAritmetica>|"("<Expresion>")"|<Variable>|<UsarFuncionConRetorno>|<Cadena>|<VariableObjeto>"."<Variable>|<VariableObjeto>"."<UsarFuncionConRetorno>|<Grafo>
 <Numero>::=<Real>|<Entero>|<EnteroSin>
@@ -49,7 +48,7 @@ NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <UsarFuncionSinRetorno>::=<UsarFuncion><Fin>|<VariableObjeto>"."<UsarFuncion><Fin>
 <UsarFuncion>::= <Variable>"("<ListaParametros>")"
 <DeclaracionVariable>::= "var " <ListaVariables><Fin>|"var " <Asignacion>
-<Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObjeto>.<Variable><Fin>|<VariableObjeto>.<Variable> "=" <Expresion><Fin>|<VariableObjeto> "=" "new" <VariableCapa>"("<ListaParametros>")"<Fin>
+<Asignacion>::= <Variable> "=" <Expresion><Fin>|<Variable> "=" <VariableObjeto>.<Variable><Fin>|<VariableObjeto>.<Variable> "=" <Expresion><Fin>|<VariableObjeto> "=" <VariableCapa>"("<ListaParametros>")"<Fin>
 <Grafo>::= "json"
 <VariableObjeto>::= <Variable>
 <CicloWhile>::= "while " <Condicion> ":" <ListaInstrucciones><Fin>
@@ -57,15 +56,9 @@ NOTA: Tomar en cuenta espacios entre comillas, no se utilizo " " directamente co
 <Booleano> 1|0|"true"|"false"|<Expresion><OperadorBool><Expresion>
 <OperadorBool>::= "=="|"<"|">"|"<="|">="|"!="
 <DecisionIf>::= <DecisionSimple><Fin>|DecisionCompuesta<Fin>
-<DecisionSimple>::= "if " <Condicion> ":" <ListaInstrucciones>|DecisionSimple ":" <DecisionDefault>
+<DecisionSimple>::= "if " <Condicion> ":" <ListaInstrucciones>|<DecisionSimple> ";" <DecisionDefault>
 <DecisionDefault>:: = "else" ":" <ListaInstrucciones>
-<DecisionCompuesta>::= <DecisionSimple> ":" <ListaCondicionesExtra>|<DecisionCompuesta> ":" <DecisionDefault>
-<ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ":" <CondicionExtra>
+<DecisionCompuesta>::= <DecisionSimple> ";" <ListaCondicionesExtra>|<DecisionCompuesta> ";" <DecisionDefault>
+<ListaCondicionesExtra>::= <CondicionExtra>|<ListaCondicionesExtra> ";" <CondicionExtra>
 <CondicionExtra>::= "elif "<Condicion> ":" <ListaInstrucciones> 
-<CicloFor>::="for " "(" "var"<Asignacion> "; " <Condicion> "; " <Variable><OperacionAritmeticaEspecial>")"  ":"<ListaInstrucciones><Fin>
-<CicloDoWhile>::="do"  ":"<ListaInstrucciones>  ":""while " <Condicion><Fin>
-<Switch>::="switch " "("<VariableSwitch>")" ":"  <ListaCasos> <Fin>|"switch " "("<VariableSwitch>")" ":"  <ListaCasos> <SwitchDefault> <Fin>
-<SwitchDefault>::=<ListaInstrucciones>
-<ListaCasos>::=<Casos>|<ListaCasos><Casos>
-<Casos>::=" case " <EnteroSin> ": "  <ListaInstrucciones> "break " <Fin>| "case " <letra> ":"  <ListaInstrucciones> "break " <Fin>
 <Imprimir>::= "print"".""("<Expresion>")"<Fin>

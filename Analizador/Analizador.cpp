@@ -18,9 +18,9 @@ string codigo;
 	string TablaSimbolos[] = {"ONION","core","layer","import","func","var","if","while","elif","else","return","print"};
 	
 	//tipo de dastos estado
-	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,qa,qb,qc,qx,qf,qe};
+	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,qx,qf,qe};
 	// del estado q7 hasta qx son al interior de una funcion
-	// qa qb qc se deben enumerar posteriormente
+	// q12 q13 q14 se deben enumerar posteriormente
 	
 		
 	//variable estados
@@ -49,8 +49,10 @@ vector<vector<string> > listaValoresV;
 	int CFA=0; // CENTINELA DE APERTURA DE FUNCION,IF,WHILE
 	
 
-	int CVV=0; //centinela para valor de la variable
+	int CVV=0; //centinela para valor de la variable y valor condicional
 	int CVP=0;  //CRNTINELA PARA LOS PARENTERSISI dentro de el valor variable y para primnt
+	
+	int CCD=0; //centinela limitacion del condicioonal
 	
 	int CVF=0;  //CENTINELA DE VARIABLES Y FUNCIONES UTILIZADAS DIRECTAMENTE EN Q7
 	
@@ -85,9 +87,6 @@ int main()
 		
 		Simbolo = codigo[i];
 	
-			
-		
-		
 		
 		if(Simbolo=='\n'){linea++;}
 
@@ -474,11 +473,11 @@ int main()
 					
 				
 					
-					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo=='+'||Simbolo=='-'){
+					if(Simbolo==' ' ||Simbolo=='\n'||Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo=='+'||Simbolo=='-'||Simbolo==':'){
 					
 							Estado = definirEstado(cadena);
 								
-								if(Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo=='+'||Simbolo=='-'){
+								if(Simbolo=='('||Simbolo=='.'||Simbolo=='='||Simbolo==':'||Simbolo=='+'||Simbolo=='-'){
 									
 									i--;
 									
@@ -540,7 +539,7 @@ int main()
 							}
 							else if(Simbolo=='='){
 								//cambiar a numero//////////
-								Estado = qa;
+								Estado = q12;
 								cadena.clear();
 							}
 							else{
@@ -560,7 +559,7 @@ int main()
 					 
 					 	else if(Simbolo=='=' && cadena=="g{}uardada"){ 
 							//cambiar a numero//////////
-						Estado =qa; 
+						Estado = q12; 
 						cadena.clear();
 					 }
 					
@@ -599,10 +598,11 @@ int main()
 				
 				
 			case q10:
-				
-				 if(CVV==0) {
-		   
-		   	    if(Simbolo=='"'){
+				// condicional
+				 if(CVV==0&& CCD!=1) {
+		   		
+		   		
+		   	    if(Simbolo=='"'&&CCD!=0){
 		   	    	
 		   		 	cadena+=Simbolo;
 		   			Estado=q10;
@@ -610,13 +610,26 @@ int main()
 				   }
 				else if(Simbolo >= '0' && Simbolo <= '9'){
 					
+					if(CCD!=0){
+				
 					cadena+=Simbolo;
 		   			Estado=q10;
 		   			CVV=2;
+		   				}
+		   			else if((Simbolo=='1'||Simbolo=='0')&&CCD==0){
+		   					CCD=1;
+		   					Estado=q10;
+		   			        CVV=100;
+					   }
+					   else{
+					   	
+					   	Estado=qe;
+					   }
 					
 				}
-				else if(Simbolo=='-'){
+				else if(Simbolo=='-'&& CCD!=0){
 				//numero negativo
+				
 					cadena+=Simbolo;
 		   			Estado=q10;
 		   			CVV=2;
@@ -641,7 +654,7 @@ int main()
 				}
 				
 				else{
-					
+				
 						Estado=qe;
 				}
 		   	
@@ -853,9 +866,11 @@ int main()
 		   }
 		   
 		   else if(CVV==100||CVV==101||CVV==102){
-		   	
-		   	  if((Simbolo=='!'||Simbolo=='='||Simbolo=='<'||Simbolo=='>')&&CVV==100){
+		   
+		   	cout<<"\n CCD= "<<CCD<<endl;
+		   	  if((Simbolo=='!'||Simbolo=='='||Simbolo=='<'||Simbolo=='>')&&CVV==100&&CCD<1){
 		   	  	  	
+		   	  	 
 		   	  	  	if(Simbolo=='<'||Simbolo=='>'){
 		   	  	  		CVV=102;
 		   	  	  		
@@ -863,20 +878,26 @@ int main()
 						   else{
 						   	CVV=101;
 							   }
+					CCD=2;
 		   	  	    Estado=q10;
 		   	  	    cadena.clear();
 				 }
 				 
-				 else if(CVV==101||CVV==102){
+				 else if((CVV==101||CVV==102)){
+				 	
 				 	
 				 	if(Simbolo=='='){
+				 	
 				 		CVV=0;
 				 		Estado=q10;
 					 }
 					 else if(CVV==102){
+					 	 	
 					 	CVV=0;
 				 		Estado=q10;
 					 }
+					 
+					 
 				 	
 				 	
 				 }
@@ -887,6 +908,7 @@ int main()
 						Estado =q11; 
 						i--;
 						cadena.clear();
+						CCD=0;
 						
 					 }
 					 
@@ -894,7 +916,7 @@ int main()
 						 Estado=q10;
 						
 					}
-					else if(Simbolo==')'||CVP>0){
+					else if(Simbolo==')'||CVP>0 ){
 						 CVV=100;
 						 CVP--;
 						 Estado=q10;
@@ -961,9 +983,9 @@ int main()
 	
 	///////////////////////////////////////llenado variable//////////////////////////////
 	//hay que cambiar el numero de estados posteriormente
-			case qa:
+			case  q12:
 			// aqui se cargan todos los datos el tipo de dato
-			// var x= qa ;, print.( qa); , return qa;
+			// var x= q12 ;, print.( q12); , return q12;
 		
 		
 		   if(CVV==0) {
@@ -971,20 +993,20 @@ int main()
 		   	    if(Simbolo=='"'){
 		   	    	
 		   		 	cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			CVV=1;
 				   }
 				else if(Simbolo >= '0' && Simbolo <= '9'){
 					
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			CVV=2;
 					
 				}
 				else if(Simbolo=='-'){
 				//numero negativo
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			CVV=2;
 					
 				}
@@ -992,17 +1014,17 @@ int main()
 				else if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 				
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			CVV=3;
 					
 				}
 			else if(Simbolo==' '||Simbolo=='\n'){
 					
-						Estado=qa;
+						Estado= q12;
 				}
 			else if(Simbolo=='('){
 					
-						Estado=qa;
+						Estado= q12;
 						CVP++;
 				}
 				
@@ -1018,14 +1040,14 @@ int main()
 		   		if(Simbolo=='"'){
 		   		    
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			CVV=100;
 		   			
 				   }
 				else{
 					
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 					
 				}
 		   	
@@ -1035,20 +1057,20 @@ int main()
 		   		if(Simbolo >= '0' && Simbolo <= '9'){
 		   		    
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			
 		   			
 				   }
 				else if(Simbolo=='.'&& cadena[cadena.size()-1]!='-' && CVV==2){
 						cadena+=Simbolo;
-		   			    Estado=qa;
+		   			    Estado= q12;
 		   			    CVV=21;
 						
 				}
 				else{
 					CVV=100;
 					i--;
-		   			Estado=qa;
+		   			Estado= q12;
 					
 				}
 		   	
@@ -1059,7 +1081,7 @@ int main()
 		   		if(((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )||(Simbolo >= '0' && Simbolo <= '9'))&&CVV==3){
 		   		    
 					cadena+=Simbolo;
-		   			Estado=qa;
+		   			Estado= q12;
 		   			
 		   			
 				   }
@@ -1069,7 +1091,7 @@ int main()
 						if(true){
 						
 						cadena.clear();
-		   			    Estado=qa;
+		   			    Estado= q12;
 		   			    CVV=30;
 		   			    	}
 		   			    else{
@@ -1086,7 +1108,7 @@ int main()
 						 if(true){
 						
 							CVV=3;
-		   			        Estado=qa;
+		   			        Estado= q12;
 		   			        cadena.clear();
 						
 					}
@@ -1107,7 +1129,7 @@ int main()
 				
 				if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 					cadena+=Simbolo;
-					Estado=qa;
+					Estado= q12;
 					CVV=31;
 					
 				}
@@ -1115,16 +1137,16 @@ int main()
 				else if ((Simbolo >= '0' && Simbolo <= '9')&&CVV==31){
 					
 					cadena+=Simbolo;
-					Estado=qa;
+					Estado= q12;
 					
 				}
 				else if ((Simbolo==' '||Simbolo=='\n')&& (CVV==30||CVV==32||CVV==33)){
 					
-					 Estado=qa;
+					 Estado= q12;
 				}
 				else if ((Simbolo==')')&& (CVV==30||CVV==33)){
 					
-					 Estado=qa;
+					 Estado= q12;
 
 					 CVV=100;
 				}
@@ -1133,7 +1155,7 @@ int main()
 					if(true){
 						
 							CVV=100;
-		   			       Estado=qa;
+		   			       Estado= q12;
 						
 					}
 					
@@ -1152,7 +1174,7 @@ int main()
 					 if(true){
 						
 							CVV=32;
-		   			        Estado=qa;
+		   			        Estado= q12;
 		   			        cadena.clear();
 						
 					}
@@ -1169,7 +1191,7 @@ int main()
 					 if(true){
 						
 							CVV=33;
-		   			        Estado=qa;
+		   			        Estado= q12;
 		   			        cadena.clear();
 						
 					}
@@ -1202,7 +1224,7 @@ int main()
 						
 							CVV=100;
 								i--;
-		   			       Estado=qa;
+		   			       Estado= q12;
 						
 					}
 					
@@ -1223,7 +1245,7 @@ int main()
 		   	  if(Simbolo=='+'||Simbolo=='-'||Simbolo=='*'||Simbolo=='/'){
 		   	  	   CVV=0;
 		   	  	   //vector<vector<string> > listaValoresV;
-		   	  	   Estado=qa;
+		   	  	   Estado= q12;
 		   	  	   cadena.clear();
 				 }
 		       	else if(Simbolo==';'&&CVP==0){
@@ -1236,13 +1258,13 @@ int main()
 					 }
 					 
 					else if(Simbolo==' '||Simbolo=='\n'){
-						 Estado=qa;
+						 Estado= q12;
 						
 					}
 					else if(Simbolo==')'||CVP>0){
 						 CVV=100;
 						 CVP--;
-						 Estado=qa;
+						 Estado= q12;
 						
 					}
 					
@@ -1258,7 +1280,7 @@ int main()
 			}
 			else if(Simbolo==' '||Simbolo=='\n'){
 						
-						 Estado=qa;
+						 Estado= q12;
 						
 					}
 					
@@ -1279,22 +1301,22 @@ int main()
 			;
 			
 			
-			case qb:
+			case q13:
 			// cargar  print y return	
 				if(Simbolo=='.'&&CVP==10){
-						 Estado=qb;
+						 Estado=q13;
 						 CVP=11;
 						
 					}
 				else if(Simbolo=='('&&CVP==11){
 					
-					     Estado=qa;
+					     Estado= q12;
 						 CVP=1;
 				}
 				
 				else if(Simbolo!=' '){
 					   	i--;	
-						 Estado=qa;
+						 Estado= q12;
 					
 				}
 			
@@ -1303,12 +1325,12 @@ int main()
 			;
 			
 			
-			case qc:
+			case q14:
 				
 			// recargar varible o usar dunciones a dentro de una funcion
 				
 				if(Simbolo=='='&&(CVF==1||CVF==2)){
-						 Estado=qa;
+						 Estado= q12;
 						 
 						 CVF=0;
 						
@@ -1325,7 +1347,7 @@ int main()
 					     CVF=31;		
 						 }
 					     
-					     Estado=qc;
+					     Estado=q14;
 					
 				}
 				
@@ -1334,17 +1356,17 @@ int main()
 						if(Simbolo=='+'&&CVF==30){
 					
 					     CVF=100;
-					     Estado=qc;
+					     Estado=q14;
 					     	}
 					    else if(Simbolo=='-'&&CVF==31){
 					
 					     CVF=100;
-					     Estado=qc;
+					     Estado=q14;
 					     	}
 					    else if(Simbolo=='='){
 					
 					     CVF=0;
-					     Estado=qa;
+					     Estado= q12;
 					    }
 					    else{
 					    	
@@ -1358,13 +1380,13 @@ int main()
 				else if(Simbolo==' '&&(CVF==1||CVF==2)){
 					
 						 CVF=2;
-					     Estado=qc;
+					     Estado=q14;
 				}
 				
 				else if(Simbolo=='.'&&CVF==1){
 					
 					   CVF=10;
-					    Estado=qc;
+					    Estado=q14;
 				}
 				
 				else if(CVF==10||CVF==11){
@@ -1372,7 +1394,7 @@ int main()
 					
 					if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 					cadena+=Simbolo;
-					Estado=qc;
+					Estado=q14;
 					CVF=11;
 					
 				   }
@@ -1380,7 +1402,7 @@ int main()
 				   else if ((Simbolo >= '0' && Simbolo <= '9')&&CVF==11){
 					
 					cadena+=Simbolo;
-				 	Estado=qc;
+				 	Estado=q14;
 					
 			    	}
 				    else if ((Simbolo==' '||Simbolo=='\n'||Simbolo=='(')&& CVF==11){
@@ -1393,7 +1415,7 @@ int main()
 							if(true){
 								
 									cadena.clear();
-						         	Estado=qc;
+						         	Estado=q14;
 						 			CVF=01;
 								
 							}
@@ -1412,7 +1434,7 @@ int main()
 							 	if(existeVariable(cadena)){
 					 				
 									cadena.clear();
-						         	Estado=qc;
+						         	Estado=q14;
 						 			CVF=2;
 						       	
 					 				
@@ -1433,7 +1455,7 @@ int main()
 				}
 				
 				else if(Simbolo=='(' &&CVF==0){	
-						 Estado=qc;
+						 Estado=q14;
 						 CVF=01;
 				}
 				else if(CVF==01||CVF==02||CVF==03||CVF==04){
@@ -1442,7 +1464,7 @@ int main()
 				
 				if((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 					cadena+=Simbolo;
-					Estado=qc;
+					Estado=q14;
 					CVF=02;
 					
 				}
@@ -1450,16 +1472,16 @@ int main()
 				else if ((Simbolo >= '0' && Simbolo <= '9')&&CVF==02){
 					
 					cadena+=Simbolo;
-					Estado=qc;
+					Estado=q14;
 					
 				}
 				else if ((Simbolo==' '||Simbolo=='\n')&& (CVF==01||CVF==03||CVF==04)){
 					
-					 Estado=qa;
+					 Estado= q12;
 				}
 				else if ((Simbolo==')')&& (CVF==01||CVF==04)){
 					
-					 Estado=qc;
+					 Estado=q14;
 
 					CVF=100;
 				}
@@ -1468,7 +1490,7 @@ int main()
 					if(true){
 						
 						CVF=100;
-		   			       Estado=qc;
+		   			       Estado=q14;
 						
 					}
 					
@@ -1487,7 +1509,7 @@ int main()
 					 if(true){
 						
 							CVF=03;
-		   			        Estado=qc;
+		   			        Estado=q14;
 		   			        cadena.clear();
 						
 					}
@@ -1504,7 +1526,7 @@ int main()
 					 if(true){
 						
 							CVF==04;
-		   			        Estado=qc;
+		   			        Estado=q14;
 		   			        cadena.clear();
 						
 					}
@@ -1541,7 +1563,7 @@ int main()
 					 }
 					 
 					else if(Simbolo==' '||Simbolo=='\n'){
-						 Estado=qc;
+						 Estado=q14;
 						
 					}
 					
@@ -1783,7 +1805,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 
-			return qb;
+			return q13;
 		}
 		else if(cadena=="print"){
 			
@@ -1792,7 +1814,7 @@ TEstado definirEstado(string cadena){
 			elemento.push_back(decLine());
 			listaElementos.push_back(elemento);
 			CVP=10;
-			return qb;
+			return q13;
 		}
 		
 		else if(cadena=="var"){
@@ -1923,14 +1945,14 @@ TEstado definirEstado(string cadena){
 				
 				cout<<"cadena ref::"<<cadena;
 					CVF=1;
-			    return qc;
-			 //ES  VARIABLE qc
+			    return q14;
+			 //ES  VARIABLE q14
 			}
 			
 			//existefuncion(cadena)
 			else if(true){
 				
-		          return qc;
+		          return q14;
 			}
 			else {
 				

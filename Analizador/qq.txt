@@ -5,20 +5,20 @@ func F1 (main):var v2;
 
 var v3 = "hola" + "funsion";
 
-if (true>="true"): ;
+if (hola!="adios"): ;
 
 elif(1): print.("hola mundo");
 
 ;
 elif(1): ;
-else ;
+else: ;
 
 while(true>="true"):;
 var b3 = -12.3*-10+ "lals";
 
 var v5= b3 + v3;
 
-var tana = F1(v5, b3); 
+var tana = F1("hola", b3); 
 
 var te= JSON; 
 
