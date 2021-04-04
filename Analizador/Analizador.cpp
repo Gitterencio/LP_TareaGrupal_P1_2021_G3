@@ -327,7 +327,7 @@ int main()
 							//guardar indentificador
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
-							
+						
 							if(Simbolo=='('){
 								Estado =q6; 
 								cadena.clear();
@@ -342,7 +342,7 @@ int main()
 						
 					}
 					else if(Simbolo=='(' && cadena=="g{}uardada"){ 
-						
+					
 						Estado =q6; 
 						cadena.clear();
 					 }
@@ -372,8 +372,17 @@ int main()
 				 	cadena+=Simbolo;
 				 	Estado = q6;
 				}
-				else if((Simbolo==' ' ||Simbolo=='\n')&& cadena==""){
+				else if((Simbolo==' ' ||Simbolo=='\n'||Simbolo==')')&& cadena==""){
+					
+						if(Simbolo!=')'){
+					
 						Estado = q6;
+							}
+							else if(CFP!=0){
+								CFP=3;
+								Estado = q6;
+								cadena="g{}uardada";
+							}
 				}
 				
 				else{

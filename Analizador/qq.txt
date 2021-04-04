@@ -37,7 +37,9 @@ te.te = 12;
 return "hola mundo";
 
 ;func F2 ( main0, ad):;}
-ONION layer ho2 { import layer.sd ;  
+ONION layer ho2 { import layer.sd;
+
+func s1 (  ): var x;;
 }
 
 

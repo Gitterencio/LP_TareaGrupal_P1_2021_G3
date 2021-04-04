@@ -42,6 +42,8 @@
  Elemeto clave :layer  Reservado  Linea #40
  Elemeto clave :import Reservado  Linea #40
  Elemeto clave :layer Reservado  Linea #40
+ Elemeto clave :func Reservado  Linea #42
+ Elemeto clave :var Reservado  Linea #42
 
  ID :ho1 identificador clase  Linea #1
  ID :ho2 identificador referencia  Linea #1
@@ -51,7 +53,7 @@
  ID :main0 parametro funcion  Linea #39
  ID :ad parametro funcion  Linea #39
  ID :ho2 identificador clase  Linea #40
- ID :sd identificador referencia  Linea #40
+ ID :s1 identificador funcion  Linea #42
 
  VARIABLE :v1 variable global  Linea #3
  VARIABLE :v3 variable global  Linea #3
@@ -64,3 +66,4 @@
  VARIABLE :te variable local  Linea #24
  VARIABLE :ss variable local  Linea #27
  VARIABLE :tana variable local  Linea #31
+ VARIABLE :x variable local  Linea #42
