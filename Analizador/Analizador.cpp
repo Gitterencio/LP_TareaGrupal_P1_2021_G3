@@ -7,6 +7,7 @@
 
 using namespace std;
 
+void revisionImpresion();
 void escribirDocumento(string texto);
 void lecturaDocumento();
 string nombreDocumento;
@@ -19,8 +20,7 @@ string codigo;
 	
 	//tipo de dastos estado
 	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,qx,qf,qe};
-	// del estado q7 hasta qx son al interior de una funcion
-	// q12 q13 q14 se deben enumerar posteriormente
+
 	
 		
 	//variable estados
@@ -40,23 +40,23 @@ vector<vector<string> > listaIdentificadores;
 bool existeVariable(string cadena);
 vector<vector<string> > listaVariables;
 
-void guardarValorV(string cadena);
-vector<vector<string> > listaValoresV;
+void guardarReferencia(string cadena, string tipo);
+vector<vector<string> > listaReferencias;
 
 
 //centinelas
-	int CFP=0; //CENTINELA MAIN
-	int CFA=0; // CENTINELA DE APERTURA DE FUNCION,IF,WHILE
+	int CFP=0; //centinela "main"
+	int CFA=0; // centinela de apertura de  func, while, if, else ,elif
 	
 
 	int CVV=0; //centinela para valor de la variable y valor condicional
-	int CVP=0;  //CRNTINELA PARA LOS PARENTERSISI dentro de el valor variable y para primnt
+	int CVP=0;  //centinela de parentesis dentro de el valor variable y para print
 	
 	int CCD=0; //centinela limitacion del condicioonal
 	
-	int CVF=0;  //CENTINELA DE VARIABLES Y FUNCIONES UTILIZADAS DIRECTAMENTE EN Q7
+	int CVF=0;  //centinela de variables y funciones utilizados directamente en q7
 	
-	vector<char> UA; //centinelas ultimo abierto if,elif,else o while
+	vector<char> UA; //centinelas ultimo abierto fun,if,elif,else o while
 		   char  UC=' '; //centinela ultimo cerrado
 
 
@@ -92,7 +92,7 @@ int main()
 
 		switch (Estado){
 			case q0:
-				//
+				// ONION core, layer
 				if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 				 	
 				 
@@ -126,9 +126,8 @@ int main()
 				break;
 			
 			case q1:
-				
 			
-				// identificador 
+				// identificador  de clase
 				if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
 				 	
 				 
@@ -199,7 +198,7 @@ int main()
 							
 								cadena.clear();
 								
-							
+
 						 
 					}
 					
@@ -213,7 +212,7 @@ int main()
 				break;
 				
 			case q3:
-				// estado de import  1,replicando q0
+				// estado de import , recibe layer.
 				
 				
 			  	if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
@@ -245,7 +244,7 @@ int main()
 				break;
 				
 			case q4:
-				//  estado de import  2, replicando q1
+				//  identificador de import
 					
 			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
 				 	
@@ -303,7 +302,7 @@ int main()
 				break;
 				
 			case q5:
-				//  estado funcion  1, replicando q1
+				//  estado funcion identificador
 					
 			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
 				 	
@@ -359,7 +358,7 @@ int main()
 				break;
 				
 			case q6:
-				//  estado de funcion  2, replicando q1 PARAMETROS
+				//  paramentros de la funcion
 						
 			  	if (((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' ))&& cadena!="g{}uardada"){
 				 	
@@ -485,8 +484,7 @@ int main()
 								}
 							  	
 								
-								
-								
+
 								
 									cadena.clear();
 						 
@@ -575,6 +573,8 @@ int main()
 				
 				
 				case q9:
+					
+					// inicio de la codicion despues de while,if,elif
 		
 				if(Simbolo=='('){
 					CVP++;
@@ -598,7 +598,7 @@ int main()
 				
 				
 			case q10:
-				// condicional
+				// condicion
 				 if(CVV==0&& CCD!=1) {
 		   		
 		   		
@@ -661,7 +661,7 @@ int main()
 		   	
 		   }
 		   else if(CVV==1){
-			//estrings
+			//strings
 		   		if(Simbolo=='"'){
 		   		    
 					cadena+=Simbolo;
@@ -712,37 +712,25 @@ int main()
 				   }
 			else if(Simbolo=='(' ){
 						
-						// existefuncion(cadena)	
-						if(true){
+						// existefuncion	
+							guardarReferencia(cadena,"funcion");
 						
 						cadena.clear();
 		   			    Estado=q10;
 		   			    CVV=30;
-		   			    	}
-		   			    else{
-		   			    		CVV=0;
-						cadena.clear();
-						Estado=qe;
-		   			    	
-						   }
+		   			   
 						
 				}
 				
 				else if(Simbolo=='.'){
-					//existeVariable(cadena)
-						 if(true){
+					//existeVariable
+							guardarReferencia(cadena,"variable");
 						
 							CVV=3;
 		   			        Estado=q10;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 					
 				}
@@ -776,56 +764,37 @@ int main()
 					 CVV=100;
 				}
 				else if ((Simbolo==')')&& CVV==31){
-					//existeVariable(cadena)
-					if(true){
+					//existeVariable
+						guardarReferencia(cadena,"variable");
 						
 							CVV=100;
 		   			       Estado=q10;
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 			
 				}
 				
 				else if(Simbolo==','&&(CVV==31||CVV==33)){
 					
-					//existeVariable(cadena)
-					 if(true){
+					//existeVariable
+						guardarReferencia(cadena,"variable");
 						
 							CVV=32;
 		   			        Estado=q10;
 		   			        cadena.clear();
-						
-					}
 					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
 					
 				}
 				else if((Simbolo==' '||Simbolo=='\n')&&CVV==31){
-					//existeVariable(cadena)
-					 if(true){
+					//existeVariable
+							guardarReferencia(cadena,"variable");
 						
 							CVV=33;
 		   			        Estado=q10;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 				}
 				
 				else{
@@ -845,19 +814,14 @@ int main()
 			//variable
 				else{
 					//existeVariable(cadena)
-					if(true){
+					guardarReferencia(cadena,"variable");
 						
 							CVV=100;
 								i--;
 		   			       Estado=q10;
-						
-					}
+				
 					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 		   		
 					
@@ -867,7 +831,6 @@ int main()
 		   
 		   else if(CVV==100||CVV==101||CVV==102){
 		   
-		   	cout<<"\n CCD= "<<CCD<<endl;
 		   	  if((Simbolo=='!'||Simbolo=='='||Simbolo=='<'||Simbolo=='>')&&CVV==100&&CCD<1){
 		   	  	  	
 		   	  	 
@@ -981,11 +944,10 @@ int main()
 	
 	// interior de la funcion ;
 	
-	///////////////////////////////////////llenado variable//////////////////////////////
-	//hay que cambiar el numero de estados posteriormente
+
+
 			case  q12:
-			// aqui se cargan todos los datos el tipo de dato
-			// var x= q12 ;, print.( q12); , return q12;
+				////llenado variable/////
 		
 		
 		   if(CVV==0) {
@@ -1088,36 +1050,24 @@ int main()
 			else if(Simbolo=='(' ){
 						
 						// existefuncion(cadena)	
-						if(true){
+							guardarReferencia(cadena,"funcion");
 						
 						cadena.clear();
 		   			    Estado= q12;
 		   			    CVV=30;
-		   			    	}
-		   			    else{
-		   			    		CVV=0;
-						cadena.clear();
-						Estado=qe;
-		   			    	
-						   }
+		   			 
 						
 				}
 				
 				else if(Simbolo=='.'){
 					//existeVariable(cadena)
-						 if(true){
+						guardarReferencia(cadena,"variable");
 						
 							CVV=3;
 		   			        Estado= q12;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 					
 				}
@@ -1152,18 +1102,13 @@ int main()
 				}
 				else if ((Simbolo==')')&& CVV==31){
 					//existeVariable(cadena)
-					if(true){
+					
+					guardarReferencia(cadena,"variable");
 						
 							CVV=100;
 		   			       Estado= q12;
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 			
 				}
@@ -1171,36 +1116,24 @@ int main()
 				else if(Simbolo==','&&(CVV==31||CVV==33)){
 					
 					//existeVariable(cadena)
-					 if(true){
+					 guardarReferencia(cadena,"variable");
 						
 							CVV=32;
 		   			        Estado= q12;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 				}
 				else if((Simbolo==' '||Simbolo=='\n')&&CVV==31){
-					//existeVariable(cadena)
-					 if(true){
-						
+					//existeVariable
+					 guardarReferencia(cadena,"variable");
+					 
 							CVV=33;
 		   			        Estado= q12;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 				}
 				
 				else{
@@ -1219,23 +1152,14 @@ int main()
 			}
 			//variable
 				else{
-					//existeVariable(cadena)
-					if(true){
+					//existeVariable
+							
+							guardarReferencia(cadena,"variable");
 						
 							CVV=100;
 								i--;
 		   			       Estado= q12;
-						
-					}
-					
-					else{
-						CVV=0;
-						cadena.clear();
-						Estado=qe;
-					}
-					
-		   		
-					
+				
 				}
 		   	
 		   }
@@ -1244,7 +1168,7 @@ int main()
 		   	
 		   	  if(Simbolo=='+'||Simbolo=='-'||Simbolo=='*'||Simbolo=='/'){
 		   	  	   CVV=0;
-		   	  	   //vector<vector<string> > listaValoresV;
+		   	  	   //vector<vector<string> > lista;
 		   	  	   Estado= q12;
 		   	  	   cadena.clear();
 				 }
@@ -1327,7 +1251,7 @@ int main()
 			
 			case q14:
 				
-			// recargar varible o usar dunciones a dentro de una funcion
+			// recargar varible o usar funciones  dentro de una funcion
 				
 				if(Simbolo=='='&&(CVF==1||CVF==2)){
 						 Estado= q12;
@@ -1337,8 +1261,7 @@ int main()
 					}
 					
 				else if((Simbolo=='+'||Simbolo=='-')&&CVF==1){
-						cout<<"\n simbolo::"<<Simbolo<<endl;
-					cout<<"\n CVF::"<<CVF<<endl;
+					
 						if(Simbolo=='+'){
 					     CVF=30;	
 						 }
@@ -1411,22 +1334,15 @@ int main()
 						 
 						 
 						 	if(Simbolo=='('){
-								 	//existefuncion(cadena)
-							if(true){
+								 	//existefuncion
+								guardarReferencia(cadena,"funcion");
 								
 									cadena.clear();
 						         	Estado=q14;
 						 			CVF=01;
 								
-							}
+						
 								 
-								 else{
-								 	
-								 		CVF=0;
-					 	cadena.clear();
-						Estado=qe;
-								 	
-								 }
 							 }
 							 
 							 else {
@@ -1486,56 +1402,43 @@ int main()
 					CVF=100;
 				}
 				else if ((Simbolo==')')&& CVF==02){
-					//existeVariable(cadena)
-					if(true){
+					//existeVariable
+					
+					guardarReferencia(cadena,"variable");
 						
 						CVF=100;
 		   			       Estado=q14;
 						
-					}
 					
-					else{
-						CVF=0;
-						cadena.clear();
-						Estado=qe;
-					}
+					
+				
 					
 			
 				}
 				
 				else if(Simbolo==','&&(	CVF==02||CVF==04)){
 					
-					//existeVariable(cadena)
-					 if(true){
+					//existeVariable
+						guardarReferencia(cadena,"variable");
+				
 						
 							CVF=03;
 		   			        Estado=q14;
 		   			        cadena.clear();
 						
-					}
-					
-					else{
-						CVF=0;
-						cadena.clear();
-						Estado=qe;
-					}
+				
 					
 				}
 				else if((Simbolo==' '||Simbolo=='\n')&&CVF==02){
-					//existeVariable(cadena)
-					 if(true){
+					//existeVariable
+					 	guardarReferencia(cadena,"variable");
 						
 							CVF==04;
 		   			        Estado=q14;
 		   			        cadena.clear();
 						
-					}
 					
-					else{
-						CVF=02;
-						cadena.clear();
-						Estado=qe;
-					}
+					
 				}
 				
 				else{
@@ -1621,7 +1524,7 @@ int main()
 					
 					}else {
 						
-						//en el interrior de una funcion
+						//en el interrior de una funcion q7
 						  Estado=q7;
 					}
 				
@@ -1685,47 +1588,137 @@ int main()
 	}
 	
 	
-	// analisis de resultados
-	
-/*	if (Estado== q1){
-		cout <<"Cadena aceptada" << endl;
-		//buscar en la tabla de simbolos
-		int j;
-		int TamanioArreglo = sizeof TablaSimbolos / sizeof TablaSimbolos[0];
-		for(j=0;j<TamanioArreglo;j++){
-			if(Cadena.compare(TablaSimbolos[j]) == 0){
-				cout << "palabra reservada: " << Cadena;
-				break;	
-			}
-		}
-	}
-	else
-		cout <<"Cadena NO valida";
-	*/
 	
 	
-	//salidas no
 	
-	//cout<< codigo;
-	
-//	escribirDocumento(codigo);
+//	resultados
 
 if (Estado== qe){
 	
-	cout<<" wwww sin apertura linea \n "<< decLine();
+	cout<<"\n Error de Sintaxis "<< decLine()<<endl;
 }
 else if(Estado==qf){
 	
-	cout<<endl<<"si hay \n";
+	cout<<endl<<"\n  Sintaxis valida, revisando referencias"<<endl;
 }
 
-else if(Estado==q1){
-	
-	cout<<"si hay q1 \n";
-}
+
+revisionImpresion();
+
 	
 	system("pause");
 	return 0;
+}
+
+void revisionImpresion(){
+	
+	string imp;
+	int r=0;
+	imp+="\n Referencias: ";
+	cout<<"\n Referencias:";
+	
+	// revisar referncias
+	int i=0;
+	while(i<listaReferencias.size()){
+		
+		vector<string > tmp=listaReferencias[i];
+		
+		if (tmp[1]=="variable"){
+			
+			if(!existeVariable(tmp[0])){
+				
+				cout<<"\n referencia invalida :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2];
+				
+				imp+="\n referencia invalida :"+tmp[0]+" "+tmp[1]+" "+tmp[2];
+				r++;
+			}
+		}
+		else{
+			
+				if(!existefuncion(tmp[0])){
+					
+				cout<<"\n referencia invalida :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2];
+				
+				imp+="\n referencia invalida :"+tmp[0]+" "+tmp[1]+" "+tmp[2];
+					r++;
+				}
+			
+		}
+		
+		i++;
+		
+	}
+	
+	if(r==0){
+		cout<<"\n Referencias validas";
+	}
+
+	
+	imp+="\n\n Datos: ";
+	cout<<"\n\n Datos: \n";
+	imp+="\n";
+	// lista de elmentos
+	
+	
+   i=0;
+	while(i<listaElementos.size()){
+		
+		vector<string > tmp=listaElementos[i];
+		
+		cout<<"\n Elemeto clave :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2];
+				
+		imp+="\n Elemeto clave :"+tmp[0]+" "+tmp[1]+" "+tmp[2];
+  
+		
+		i++;
+		
+	}
+	
+		cout<<endl;
+	imp+="\n";
+	
+	
+		// lista de identificadores , funcion,clase , parametro
+	
+   i=0;
+	while(i<listaIdentificadores.size()){
+		
+		vector<string > tmp=listaIdentificadores[i];
+		
+		cout<<"\n ID :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3];
+				
+		 imp+="\n ID :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3];
+  
+		
+		i++;
+		
+	}
+	
+	
+		cout<<endl;
+	imp+="\n";
+	
+	
+		// lista de variables
+	
+   i=0;
+	while(i<listaVariables.size()){
+		
+		vector<string > tmp=listaVariables[i];
+		
+		cout<<"\n VARIABLE :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3];
+				
+		 imp+="\n VARIABLE :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3];
+  
+		
+		i++;
+		
+	}
+	
+	cout<<endl;
+	imp+="\n";
+	
+	escribirDocumento(imp);
 }
 
 
@@ -1941,23 +1934,20 @@ TEstado definirEstado(string cadena){
 		if(Estado==q7){
 			
 			
-			if(true){
+			if(existeVariable(cadena)){
 				
-				cout<<"cadena ref::"<<cadena;
-					CVF=1;
+			    CVF=1;
 			    return q14;
 			 //ES  VARIABLE q14
 			}
 			
-			//existefuncion(cadena)
-			else if(true){
-				
-		          return q14;
-			}
+			//debe ser una funcion
 			else {
 				
-				return qe;
+				guardarReferencia(cadena,"funcion");
+		          return q14;
 			}
+			
 		}
 		
 		else{
@@ -1976,7 +1966,6 @@ bool palabraClave(string cadena){
 		
 		if(cadena == TablaSimbolos[i]){
 			
-				cout<<"palabra clave" <<endl;
 			return true;
 		}
 		
@@ -1993,15 +1982,14 @@ bool existeVariable(string cadena){
 		vr=listaVariables[v];
 		
 		if(vr[0]==cadena){
-			 cout<<"///////existe///////";
+		
 			return true;
 		}
 		
 		v++;
 	}
-	cout<<"///////no    existe///////";
 	
-	if(cadena=="JSON"||cadena=="true"||cadena=="false"){
+	if(cadena=="json"||cadena=="true"||cadena=="false"){
 		
 		return true;
 	}
@@ -2017,20 +2005,30 @@ bool existefuncion(string cadena)
 	
 		fc=listaIdentificadores[v];
 		
-		if(fc[0]==cadena&&fc[2]==" funcion"){
-			 cout<<"///////existe///////";
+		if(fc[0]==cadena&&fc[2]!="clase"){
+	
 			return true;
 		}
 		
 		v++;
 	}
 	
-	cout<<"simblo::  "<<cadena<<endl;
-	cout<<"///////no    existe///////";
 	
 	return false;
 	
 }
+
+void guardarReferencia(string cadena, string tipo){
+	
+		vector<string> ref;
+			ref.push_back(cadena);
+			ref.push_back(tipo);
+			ref.push_back(decLine());
+	
+		listaReferencias.push_back(ref);	
+	
+}
+
 
 void guardarIdentificador(string cadena){
 	
@@ -2042,8 +2040,8 @@ void guardarIdentificador(string cadena){
 	if(Estado==q1){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back(" identificador");
-		Identificador.push_back(" clase");
+		Identificador.push_back("identificador");
+		Identificador.push_back("clase");
 		Identificador.push_back(decLine());
 		
 	}
@@ -2051,8 +2049,8 @@ void guardarIdentificador(string cadena){
 	else if(Estado==q4){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back(" identificador");
-		Identificador.push_back(" referencia");
+		Identificador.push_back("identificador");
+		Identificador.push_back("referencia");
 		Identificador.push_back(decLine());
 		
 	}
@@ -2060,8 +2058,8 @@ void guardarIdentificador(string cadena){
 	else if(Estado==q5){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back(" identificador");
-		Identificador.push_back(" funcion");
+		Identificador.push_back("identificador");
+		Identificador.push_back("funcion");
 		Identificador.push_back(decLine());
 		
 	}
@@ -2073,8 +2071,8 @@ void guardarIdentificador(string cadena){
 			if(cadena=="main"){
 				CFP=1;
 					Identificador.push_back(cadena);
-					Identificador.push_back(" parametro");
-					Identificador.push_back(" funcion Principal");
+					Identificador.push_back("parametro");
+					Identificador.push_back("funcion Principal");
 					Identificador.push_back(decLine());
 					
 			}
@@ -2094,8 +2092,8 @@ void guardarIdentificador(string cadena){
 		else{	
 		
 					Identificador.push_back(cadena);
-					Identificador.push_back(" parametro");
-					Identificador.push_back(" funcion");
+					Identificador.push_back("parametro");
+					Identificador.push_back("funcion");
 					Identificador.push_back(decLine());
 		}
 	}
@@ -2105,16 +2103,16 @@ void guardarIdentificador(string cadena){
 		if(CFA==0){
 			
 					Identificador.push_back(cadena);
-					Identificador.push_back(" variable");
-					Identificador.push_back(" global");
+					Identificador.push_back("variable");
+					Identificador.push_back("global");
 					Identificador.push_back(decLine());
 			
 		}
 		else{
 			
 					Identificador.push_back(cadena);
-					Identificador.push_back(" variable");
-					Identificador.push_back(" local");
+					Identificador.push_back("variable");
+					Identificador.push_back("local");
 					Identificador.push_back(decLine());
 			
 			
@@ -2125,13 +2123,7 @@ void guardarIdentificador(string cadena){
 	}
 	
 	if(Estado!=q8){   listaIdentificadores.push_back(Identificador);	}
-	 //pruebas
-	 int i= 0;
-	 while(i<Identificador.size()){
-	 	
-	 	cout<< Identificador[i];
-	 	i++;
-	 }
+	 
 	
 }
 
@@ -2153,7 +2145,7 @@ void lecturaDocumento(){
 	
 	ifstream archivo;
 	
-	cout<<"nombre del archivo \n";
+	cout<<"nombre del archivo, el archivo no debe contener tabulaciones \n";
 	getline(cin, nombreDocumento);
 	nombreDocumento+=".txt";
 	

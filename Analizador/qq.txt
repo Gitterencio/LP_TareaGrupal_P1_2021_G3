@@ -17,21 +17,19 @@ while(true>="true"):;
 var b3 = -12.3*-10+ "lals";
 
 var v5= b3 + v3;
-
-var tana = F1("hola", b3); 
+var bb= F1(casca);
 
 var te= JSON; 
 
 var te= ((te.te(mana))+(2));
 
 te-= 9;
-
 var ss= tana.tana;
 print.(valor());
 
 te= "hola";
-
-tana.f1();
+var tana;
+tana.F1();
 
 te.te = 12;
  print.(valor());
