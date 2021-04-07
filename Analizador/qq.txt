@@ -1,7 +1,7 @@
-ONION core ho1 { import layer.ho2 ;  
+	ONION core ho1 { import layer.ho2 ;  
 import layer.ho3;
 var v1; var v3;
-func F1 (main):var v2;
+func F1 (main): v3=5;
 
 var v3 = "hola" + "funsion";
 
@@ -19,7 +19,7 @@ var b3 = -12.3*-10+ "lals";
 var v5= b3 + v3;
 var bb= F1(casca);
 
-var te= JSON; 
+var te= json; 
 
 var te= ((te.te(mana))+(2));
 
@@ -27,17 +27,18 @@ te-= 9;
 var ss= tana.tana;
 print.(valor());
 
-te= "hola";
+te= 	"hola";
 var tana;
 tana.F1();
 
 te.te = 12;
- print.(valor());
+ 	print.(ho2());
 
 return "hola mundo";
 
-;func F2 ( main0, ad):;}
-ONION layer ho2 { import layer.sd;
+;func F2 ( main0, ad):		;}
+ONION layer ho2 	
+{ import layer.sd;
 
 func s1 (  ): var x;;
 }

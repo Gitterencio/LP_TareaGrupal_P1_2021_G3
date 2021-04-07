@@ -1,16 +1,15 @@
-ONION core  Principal {import layer.Brazo;
+ONION core p4d{
+	
+var v1d;
 
-    var brazoD ;
-func principal(main):
-var n;
-       
-   n=2 ;
-var v5= n.n;
+	func pr2d (main) :
+	
+	
+	 v1d = "hola mundo";
 
-         print.("error de carga");
-        
-        
-    ;
+print.(v1d);
+
+	;
 
 
 }

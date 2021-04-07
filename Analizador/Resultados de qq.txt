@@ -1,12 +1,5 @@
 
  Referencias: 
- referencia invalida :hola variable  Linea #8
- referencia invalida :casca variable  Linea #20
- referencia invalida :JSON variable  Linea #22
- referencia invalida :te funcion  Linea #24
- referencia invalida :mana variable  Linea #24
- referencia invalida :valor funcion  Linea #28
- referencia invalida :valor funcion  Linea #35
 
  Datos: 
 
@@ -19,51 +12,11 @@
  Elemeto clave :var Reservado  Linea #3
  Elemeto clave :var Reservado  Linea #3
  Elemeto clave :func Reservado  Linea #4
- Elemeto clave :var Reservado  Linea #4
- Elemeto clave :var Reservado  Linea #6
- Elemeto clave :if Reservado  Linea #8
- Elemeto clave :elif Reservado  Linea #10
- Elemeto clave :print Reservado  Linea #10
- Elemeto clave :elif Reservado  Linea #13
- Elemeto clave :else Reservado  Linea #14
- Elemeto clave :while Reservado  Linea #16
- Elemeto clave :var Reservado  Linea #17
- Elemeto clave :var Reservado  Linea #19
- Elemeto clave :var Reservado  Linea #20
- Elemeto clave :var Reservado  Linea #22
- Elemeto clave :var Reservado  Linea #24
- Elemeto clave :var Reservado  Linea #27
- Elemeto clave :print Reservado  Linea #28
- Elemeto clave :var Reservado  Linea #31
- Elemeto clave :print Reservado  Linea #35
- Elemeto clave :return Reservado  Linea #37
- Elemeto clave :func Reservado  Linea #39
- Elemeto clave :ONION  Reservado  Linea #40
- Elemeto clave :layer  Reservado  Linea #40
- Elemeto clave :import Reservado  Linea #40
- Elemeto clave :layer Reservado  Linea #40
- Elemeto clave :func Reservado  Linea #42
- Elemeto clave :var Reservado  Linea #42
 
  ID :ho1 identificador clase  Linea #1
  ID :ho2 identificador referencia  Linea #1
  ID :F1 identificador funcion  Linea #4
  ID :main parametro funcion Principal  Linea #4
- ID :F2 identificador funcion  Linea #39
- ID :main0 parametro funcion  Linea #39
- ID :ad parametro funcion  Linea #39
- ID :ho2 identificador clase  Linea #40
- ID :s1 identificador funcion  Linea #42
 
  VARIABLE :v1 variable global  Linea #3
  VARIABLE :v3 variable global  Linea #3
- VARIABLE :v2 variable local  Linea #4
- VARIABLE :v3 variable local  Linea #6
- VARIABLE :b3 variable local  Linea #17
- VARIABLE :v5 variable local  Linea #19
- VARIABLE :bb variable local  Linea #20
- VARIABLE :te variable local  Linea #22
- VARIABLE :te variable local  Linea #24
- VARIABLE :ss variable local  Linea #27
- VARIABLE :tana variable local  Linea #31
- VARIABLE :x variable local  Linea #42

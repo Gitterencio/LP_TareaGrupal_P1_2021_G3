@@ -5,18 +5,12 @@
 
  Elemeto clave :ONION Reservado  Linea #1
  Elemeto clave :core  Reservado  Linea #1
- Elemeto clave :import Reservado  Linea #1
- Elemeto clave :layer Reservado  Linea #1
  Elemeto clave :var Reservado  Linea #3
- Elemeto clave :func Reservado  Linea #4
- Elemeto clave :var Reservado  Linea #5
- Elemeto clave :var Reservado  Linea #8
+ Elemeto clave :func Reservado  Linea #5
  Elemeto clave :print Reservado  Linea #10
 
- ID :Principal identificador clase  Linea #1
- ID :principal identificador funcion  Linea #4
- ID :main parametro funcion Principal  Linea #4
+ ID :p4d identificador clase  Linea #1
+ ID :pr2d identificador funcion  Linea #5
+ ID :main parametro funcion Principal  Linea #5
 
- VARIABLE :brazoD variable global  Linea #3
- VARIABLE :n variable local  Linea #5
- VARIABLE :v5 variable local  Linea #8
+ VARIABLE :v1d variable global  Linea #3
