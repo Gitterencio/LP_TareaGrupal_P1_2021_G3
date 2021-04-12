@@ -1,9 +1,8 @@
-	ONION core ho1 { import layer.ho2 ;  
-import layer.ho3;
-var v1; var v3;
+	ONION core ho1 { import layer.c ;  
+   import layer.veto;
+var v1; var vx;
 func F1 (main): v3=5;
-
-var func = "hola" + "funsion";
+var vf = "hola" + "funsion";
 
 if (hola!="adios"): ;
 
@@ -20,8 +19,7 @@ var v5= b3 + v3;
 var bb= F1(casca);
 
 var te= json; 
-
-var te= ((te.te(mana))+(2));
+ te= ((te.te(mana))+(2));
 
 te-= 9;
 var ss= tana.tana;
@@ -36,10 +34,11 @@ te.te = 12;
 
 return "hola mundo";
 
-;func F2 ( main0, ad):		;}
-ONION layer ho2 	
-{ import layer.sd;
+;
+func F2 ( main0, add):		;
+}ONION layer ho2 { import layer.sd;
 
+var te;
 func s1 (  ): var x;;
 }
 

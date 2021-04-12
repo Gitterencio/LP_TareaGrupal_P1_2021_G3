@@ -30,6 +30,10 @@ bool palabraClave(string cadena);
 vector<vector<string> > listaElementos;
 
 string decLine();
+
+string ultimoId(string tipo); // ultima funcion o clase
+bool idUtilizado(vector<string> id );// identificador ya esta en uso
+
 int linea;
 
 void guardarIdentificador(string cadena);
@@ -38,6 +42,7 @@ vector<vector<string> > listaIdentificadores;
 
 bool existeVariable(string cadena);
 vector<vector<string> > listaVariables;
+
 
 void guardarReferencia(string cadena, string tipo);
 vector<vector<string> > listaReferencias;
@@ -147,6 +152,7 @@ int main()
 					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo=='\t'||Simbolo=='{') && cadena!="g{}uardada"){
 						
 							//guardar indentificador
+						
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
 							
@@ -272,9 +278,9 @@ int main()
 				else{
 					
 				
-					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo=='\t') && cadena!="g{}uardada" &&cadena!=""){
+					if((Simbolo==' ' ||Simbolo=='\n'||Simbolo=='\t'||Simbolo==';') && cadena!="g{}uardada" &&cadena!=""){
 						
-						
+		
 							//guardar indentificador
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
@@ -282,6 +288,7 @@ int main()
 							if(Estado==qe){ break;}
 							
 							else  if(Simbolo==';'){ 
+							
 						
 							Estado =qx; 
 							cadena.clear();
@@ -1712,10 +1719,19 @@ void revisionImpresion(){
 		
 		vector<string > tmp=listaIdentificadores[i];
 		
+		if(tmp[2]=="funcion"){
+			
+		cout<<"\n ID :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3]<<" "<<tmp[4]<<" "<<tmp[5];
+				
+		 imp+="\n ID :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3]+" "+tmp[4]+" "+tmp[5];
+			
+		}
+		else{
+		
 		cout<<"\n ID :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3];
 				
 		 imp+="\n ID :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3];
-  
+      }
 		
 		i++;
 		
@@ -1732,12 +1748,21 @@ void revisionImpresion(){
 	while(i<listaVariables.size()){
 		
 		vector<string > tmp=listaVariables[i];
+	
+	if(tmp[2]=="local"){
 		
-		cout<<"\n VARIABLE :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3];
+		cout<<"\n VARIABLE :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3]<<" "<<tmp[4]<<" "<<tmp[5]<<" "<<tmp[6]<<" "<<tmp[7];
 				
-		 imp+="\n VARIABLE :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3];
-  
-		
+		 imp+="\n VARIABLE :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3]+" "+tmp[4]+" "+tmp[5]+" "+tmp[6]+" "+tmp[7];
+	}
+	
+	else{
+	
+		cout<<"\n VARIABLE :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3]<<" "<<tmp[4]<<" "<<tmp[5];
+				
+		 imp+="\n VARIABLE :"+tmp[0]+" "+tmp[1]+" "+tmp[2]+" "+tmp[3]+" "+tmp[4]+" "+tmp[5];	
+		}
+	
 		i++;
 		
 	}
@@ -2080,16 +2105,17 @@ void guardarIdentificador(string cadena){
 	if(Estado==q1){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back("identificador");
+		Identificador.push_back("identificador de");
 		Identificador.push_back("clase");
 		Identificador.push_back(decLine());
+		
 		
 	}
 	
 	else if(Estado==q4){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back("identificador");
+		Identificador.push_back("identificador de");
 		Identificador.push_back("referencia");
 		Identificador.push_back(decLine());
 		
@@ -2098,8 +2124,10 @@ void guardarIdentificador(string cadena){
 	else if(Estado==q5){
 		
 		Identificador.push_back(cadena);
-		Identificador.push_back("identificador");
-		Identificador.push_back("funcion");
+		Identificador.push_back("identificador de");
+		Identificador.push_back("funcion"); 
+		Identificador.push_back("pertenece a la clase");
+	    Identificador.push_back(ultimoId("clase"));
 		Identificador.push_back(decLine());
 		
 	}
@@ -2111,7 +2139,7 @@ void guardarIdentificador(string cadena){
 			if(cadena=="main"){
 				CFP=1;
 					Identificador.push_back(cadena);
-					Identificador.push_back("parametro");
+					Identificador.push_back("parametro de");
 					Identificador.push_back("funcion Principal");
 					Identificador.push_back(decLine());
 					
@@ -2132,8 +2160,8 @@ void guardarIdentificador(string cadena){
 		else{	
 	
 					Identificador.push_back(cadena);
-					Identificador.push_back("parametro");
-					Identificador.push_back("funcion");
+					Identificador.push_back("parametro de");
+					Identificador.push_back("funcion definida");
 					Identificador.push_back(decLine());
 		}
 	}
@@ -2145,6 +2173,8 @@ void guardarIdentificador(string cadena){
 					Identificador.push_back(cadena);
 					Identificador.push_back("variable");
 					Identificador.push_back("global");
+					Identificador.push_back("pertenece a la clase");
+	    			Identificador.push_back(ultimoId("clase"));
 					Identificador.push_back(decLine());
 			
 		}
@@ -2153,19 +2183,57 @@ void guardarIdentificador(string cadena){
 					Identificador.push_back(cadena);
 					Identificador.push_back("variable");
 					Identificador.push_back("local");
+					Identificador.push_back("pertenece a la funcion");
+	    			Identificador.push_back(ultimoId("funcion"));
+	    			Identificador.push_back("clase");
+	    			Identificador.push_back(ultimoId("clase"));
 					Identificador.push_back(decLine());
 			
 			
 		}
 		
-		listaVariables.push_back(Identificador);
+
+		
+		
+		if(!idUtilizado(Identificador)){
+				
+		 listaVariables.push_back(Identificador);
+		 
+		}
+		
+		else{
+			
+			cout<<"\n Identificador ya utilizado: "<<cadena<<"\n Error en"<<" "<<decLine()<<endl;
+		    Identificador[4]="Incorrecto";
+		    listaVariables.push_back(Identificador);
+		
+			
+		}
 		
 	}
 	
-	if(Estado!=q8){   listaIdentificadores.push_back(Identificador);	}
+	if(Estado!=q8){   
+	
+		if(!idUtilizado(Identificador)){
+				
+		 listaIdentificadores.push_back(Identificador);	
+		 
+		}
+		
+		else{
+			
+			cout<<"\n Identificador ya utilizado: "<<cadena<<"\n Error en"<<" "<<decLine()<<endl;
+		    Identificador[4]="Incorrecto";
+		    listaIdentificadores.push_back(Identificador);	
+			Estado=qe;
+			
+		}
+		
+		
 	 
 	 }
 	
+	}
 }
 
 string decLine(){
@@ -2179,6 +2247,124 @@ string decLine(){
 	return ss.str();
 	
 	
+	
+}
+
+
+bool idUtilizado(vector<string> id ){
+
+	vector<string> tmp;
+	if(id[2]=="clase"){
+		
+		int i=0;
+		
+		while(i<listaIdentificadores.size()){
+			tmp=listaIdentificadores[i];
+			
+			if(id[0]==tmp[0] && tmp[2]=="clase"){
+		
+				return true;
+			
+			}
+		
+		i++;	
+		}
+	
+		return false;
+	}
+	else if(id[2]=="funcion"){
+		
+		int i=0;
+		
+		while(i<listaIdentificadores.size()){
+			tmp=listaIdentificadores[i];
+			
+			if(id[0]==tmp[0] && tmp[2]=="funcion" && id[4]==tmp[4]){
+				
+				return true;
+			}
+		
+		i++;	
+		}
+		
+		return false;
+	
+	}
+	
+	else if(id[2]=="global"){
+		
+			int i=0;
+		
+		while(i<listaVariables.size()){
+			tmp=listaVariables[i];
+			
+			if(id[0]==tmp[0] && tmp[2]=="global" && id[4]==tmp[4]){
+				
+				return true;
+			}
+		
+		i++;	
+		}
+		
+		return false;
+		
+	}
+	
+		else if(id[2]=="local"){
+		
+			int i=0;
+		
+		while(i<listaVariables.size()){
+			tmp=listaVariables[i];
+			
+			if(id[0]==tmp[0] && tmp[2]=="local" && id[4]==tmp[4] && id[6]==tmp[6]){
+				
+				return true;
+			}
+		
+		i++;	
+		}
+		
+		return false;
+	}
+	
+	
+}
+
+string ultimoId(string tipo){
+	
+	vector<string> tmp;
+
+	if(tipo=="clase"){
+		
+		int i =listaIdentificadores.size()-1;
+		
+		while(i>=0){
+			tmp=listaIdentificadores[i];
+			
+			if(tmp[2]=="clase"){
+			
+				return tmp[0];
+			}
+		
+		i--;	
+		}
+	}
+	if(tipo=="funcion"){
+		
+		int i =listaIdentificadores.size()-1;
+		
+		while(i>=0){
+			tmp=listaIdentificadores[i];
+			
+			if(tmp[2]=="funcion"){
+			
+				return tmp[0];
+			}
+		
+		i--;	
+		}
+	}
 	
 }
 

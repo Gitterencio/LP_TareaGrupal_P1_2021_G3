@@ -1,5 +1,6 @@
 
  Referencias: 
+ referencia invalida :v3 funcion  Linea #4
 
  Datos: 
 
@@ -12,13 +13,12 @@
  Elemeto clave :var Reservado  Linea #3
  Elemeto clave :var Reservado  Linea #3
  Elemeto clave :func Reservado  Linea #4
- Elemeto clave :var Reservado  Linea #6
 
- ID :ho1 identificador clase  Linea #1
- ID :ho2 identificador referencia  Linea #1
- ID :F1 identificador funcion  Linea #4
- ID :main parametro funcion Principal  Linea #4
- ID :func error identificador palabra reservada  Linea #6
+ ID :ho1 identificador de clase  Linea #1
+ ID :c identificador de referencia  Linea #1
+ ID :veto identificador de referencia  Linea #2
+ ID :F1 identificador de funcion pertenece a la clase ho1  Linea #4
+ ID :main parametro de funcion Principal  Linea #4
 
- VARIABLE :v1 variable global  Linea #3
- VARIABLE :v3 variable global  Linea #3
+ VARIABLE :v1 variable global pertenece a la clase ho1  Linea #3
+ VARIABLE :vx variable global pertenece a la clase ho1  Linea #3
