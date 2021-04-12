@@ -21,7 +21,6 @@ string codigo;
 	//tipo de dastos estado
 	enum TEstado{q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,qx,qf,qe};
 
-	
 		
 	//variable estados
 	TEstado Estado;
@@ -151,8 +150,9 @@ int main()
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
 							
+							if(Estado==qe){ break;}
 							
-							if(Simbolo=='{'){
+							else if(Simbolo=='{'){
 								
 									Estado =q2; 
 						cadena.clear();
@@ -279,7 +279,9 @@ int main()
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
 							
-							 if(Simbolo==';'){ 
+							if(Estado==qe){ break;}
+							
+							else  if(Simbolo==';'){ 
 						
 							Estado =qx; 
 							cadena.clear();
@@ -337,8 +339,9 @@ int main()
 							//guardar indentificador
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
-						
-							if(Simbolo=='('){
+							
+						    if(Estado==qe){ break;}
+							else if(Simbolo=='('){
 								Estado =q6; 
 								cadena.clear();
 							}
@@ -406,8 +409,10 @@ int main()
 							guardarIdentificador(cadena);
 						
 							cadena="g{}uardada";
-							
-						if(Simbolo==')'){ 
+						
+						 if(Estado==qe){ break;}
+						
+						else if(Simbolo==')'){ 
 					    	CFP=3;
 				
 								 }
@@ -418,7 +423,7 @@ int main()
 						
 						}
 						
-				else	 if(Estado==qe){ break;}
+				else if(Estado==qe){ break;}
 						
 						Estado =q6;
 						
@@ -551,7 +556,9 @@ int main()
 							guardarIdentificador(cadena);
 							cadena="g{}uardada";
 							
-							if(Simbolo==';'){
+							if(Estado==qe){ break;}
+							
+							else if(Simbolo==';'){
 								
 								Estado = qx;
 								
@@ -842,10 +849,7 @@ int main()
 							CVV=100;
 								i--;
 		   			       Estado=q10;
-				
-					
-				
-					
+			
 		   		
 					
 				}
@@ -2058,6 +2062,19 @@ void guardarIdentificador(string cadena){
 	//identificadores ,parametros y variables se guardan aqui
 	
 	vector<string> Identificador;
+	if(palabraClave(cadena)){
+		
+		cout<<"\n Error Identificador:\n Palabra Reservada "<<cadena<<" "<<decLine()<<endl;
+		
+		Identificador.push_back(cadena);
+		Identificador.push_back("error identificador");
+		Identificador.push_back("palabra reservada");
+		Identificador.push_back(decLine());
+		listaIdentificadores.push_back(Identificador);
+		Estado=qe;
+		
+		}
+	else{
 
 	
 	if(Estado==q1){
@@ -2147,6 +2164,7 @@ void guardarIdentificador(string cadena){
 	
 	if(Estado!=q8){   listaIdentificadores.push_back(Identificador);	}
 	 
+	 }
 	
 }
 

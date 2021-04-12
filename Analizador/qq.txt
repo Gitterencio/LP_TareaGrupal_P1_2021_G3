@@ -3,7 +3,7 @@ import layer.ho3;
 var v1; var v3;
 func F1 (main): v3=5;
 
-var v3 = "hola" + "funsion";
+var func = "hola" + "funsion";
 
 if (hola!="adios"): ;
 
