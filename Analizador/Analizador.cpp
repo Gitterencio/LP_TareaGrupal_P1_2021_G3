@@ -893,6 +893,10 @@ int main()
 					 	CVV=0;
 				 		Estado=q10;
 					 }
+					 else{
+					 	
+					 	Estado=qe;
+					 }
 					 
 					 
 				 	
@@ -1579,7 +1583,7 @@ int main()
 			case qf:
 				// estado de finalizacion
 			
-		
+	
 			  if ((Simbolo >= 'a' && Simbolo <= 'z' )||(Simbolo >= 'A' && Simbolo <= 'Z' )){
 				 	
 				 
@@ -1588,7 +1592,6 @@ int main()
 				}
 				else if((Simbolo==' ' ||Simbolo=='\n'||Simbolo=='\t')&& cadena==""){
 						Estado = qf;
-						
 							
 				}
 				else{
@@ -1630,11 +1633,13 @@ int main()
 if (Estado== qe){
 	
 	cout<<"\n Error de Sintaxis "<< decLine()<<endl;
+	
 }
 else if(Estado==qf){
 	
 	cout<<endl<<"\n  Sintaxis valida, revisando referencias"<<endl;
 }
+
 
 
 revisionImpresion();
@@ -1685,6 +1690,7 @@ void revisionImpresion(){
 	
 	if(r==0){
 		cout<<"\n Referencias validas";
+		imp+="\n Referencias validas";
 	}
 
 	
