@@ -1,7 +1,9 @@
 ONION core RoverLunar{
 	var numBrazo;
 	var numRueda;
-	
+	var Camara;
+        var tomarfoto;
+        var enfocahd;
 	var anguloActualR=0;
 	var velocidad=0;
 	var anguloActualP=0;
@@ -84,6 +86,30 @@ ONION layer Pedestal{
 	;
 	}
 	
+ONION layer Camara{
+         var guardar;
+         var enviar;
+         func tomarfoto(angulo):
+         enfocahd=angulo+anguloActualP;
+         if(anguloActualP<=45):
+               print.("Capturar Foto");
+         ;elif(anguloActualP>=-45):
+                       print.("Capturar Foto");
+         ;
+         else:
+                   print.("ERROR");
+         ;
+      ;
+
+       func enviarfoto():
+ var gv=guardar+enviar;
+        if (tomarfoto==gv):
+         print.("foto guardada y enviada");
+              ;else:
+                   print.("ERROR");
+           ;
+       ;
+}
 
 
 	
