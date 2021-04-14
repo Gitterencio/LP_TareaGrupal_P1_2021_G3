@@ -51,7 +51,38 @@ ONION layer Brazo{
 				
 }
 
-
+ONION layer Pedestal{
+	var longitud;
+	var angulo;
+	func extender(longitud):
+		longActual=longActual+longitud;
+		
+		if(longActual<=100):
+			if(longActual>=0):
+				print.("Extendiendo pedestal "+longActual+" cm");
+			;else:
+				print.("ERROR");
+				;
+		;
+		else:
+			print.("ERROR");
+		;
+	;
+	
+	func inclinar(angulo):
+		anguloActualP=angulo+anguloActualP;
+		
+		if(anguloActualP<=45):
+			if(anguloActualP>=0):
+				print.("Inclinando hacia arriba "+anguloActualP+" grados");
+			;elif (anguloActualP>=-45):
+				print.("Inclinando hacia abajo "+anguloActualP+" grados");
+			;
+		;else:
+			print.("ERROR");
+		;
+	;
+	}
 	
 
 
