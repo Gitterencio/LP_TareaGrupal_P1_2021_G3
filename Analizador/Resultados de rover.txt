@@ -1,0 +1,52 @@
+
+ Referencias: 
+
+ Datos: 
+
+ Elemeto clave :ONION Reservado  Linea #1
+ Elemeto clave :core  Reservado  Linea #1
+ Elemeto clave :var Reservado  Linea #2
+ Elemeto clave :var Reservado  Linea #3
+ Elemeto clave :var Reservado  Linea #5
+ Elemeto clave :var Reservado  Linea #6
+ Elemeto clave :var Reservado  Linea #7
+ Elemeto clave :var Reservado  Linea #8
+ Elemeto clave :var Reservado  Linea #9
+ Elemeto clave :func Reservado  Linea #10
+ Elemeto clave :ONION  Reservado  Linea #14
+ Elemeto clave :layer  Reservado  Linea #14
+ Elemeto clave :var Reservado  Linea #16
+ Elemeto clave :func Reservado  Linea #18
+ Elemeto clave :if Reservado  Linea #21
+ Elemeto clave :if Reservado  Linea #22
+ Elemeto clave :print Reservado  Linea #23
+ Elemeto clave :elif Reservado  Linea #25
+ Elemeto clave :print Reservado  Linea #26
+ Elemeto clave :else Reservado  Linea #29
+ Elemeto clave :print Reservado  Linea #30
+ Elemeto clave :func Reservado  Linea #34
+ Elemeto clave :if Reservado  Linea #37
+ Elemeto clave :if Reservado  Linea #38
+ Elemeto clave :print Reservado  Linea #39
+ Elemeto clave :elif Reservado  Linea #41
+ Elemeto clave :print Reservado  Linea #42
+ Elemeto clave :else Reservado  Linea #44
+ Elemeto clave :print Reservado  Linea #45
+
+ ID :RoverLunar identificador de clase  Linea #1
+ ID :princ identificador de funcion pertenece a la clase RoverLunar  Linea #10
+ ID :main parametro de funcion Principal  Linea #10
+ ID :Brazo identificador de clase  Linea #14
+ ID :moverIzq identificador de funcion pertenece a la clase Brazo  Linea #18
+ ID :angulo parametro de funcion definida  Linea #18
+ ID :moverDer identificador de funcion pertenece a la clase Brazo  Linea #34
+ ID :angulo parametro de funcion definida  Linea #34
+
+ VARIABLE :numBrazo variable global pertenece a la clase RoverLunar  Linea #2
+ VARIABLE :numRueda variable global pertenece a la clase RoverLunar  Linea #3
+ VARIABLE :anguloActualR variable global pertenece a la clase RoverLunar  Linea #5
+ VARIABLE :velocidad variable global pertenece a la clase RoverLunar  Linea #6
+ VARIABLE :anguloActualP variable global pertenece a la clase RoverLunar  Linea #7
+ VARIABLE :longMAX variable global pertenece a la clase RoverLunar  Linea #8
+ VARIABLE :longActual variable global pertenece a la clase RoverLunar  Linea #9
+ VARIABLE :angulo variable global pertenece a la clase Brazo  Linea #16

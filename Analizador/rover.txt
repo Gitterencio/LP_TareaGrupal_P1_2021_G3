@@ -1,0 +1,60 @@
+ONION core RoverLunar{
+	var numBrazo;
+	var numRueda;
+	
+	var anguloActualR=0;
+	var velocidad=0;
+	var anguloActualP=0;
+	var longMAX=100;
+	var longActual;
+	func princ (main):	
+	;
+}
+
+ONION layer Brazo{
+	
+	var angulo;
+	
+	func moverIzq(angulo):
+		anguloActualR=anguloActualR+angulo;
+		
+		if(anguloActualR<=140):
+			if(anguloActualR>=0):
+				print.("Girando rueda a la izquierda");
+			;
+			elif(anguloActualR>=-140):	
+				print.("Girando rueda a la derecha");
+			;
+		;
+		else :
+				print.("ERROR");
+			;	
+				
+	;
+	func moverDer(angulo):
+		anguloActualR=anguloActualR+angulo;
+		
+		if(anguloActualR<=140):
+			if(anguloActualR>=0):
+				print.("Girando rueda a la izquierda");
+			;
+			elif(anguloActualR>=-140):	
+				print.("Girando rueda a la derecha");
+			;
+		;else :
+				print.("ERROR");
+			;
+			
+		
+			
+	;
+				
+}
+
+
+	
+
+
+	
+	
+	
