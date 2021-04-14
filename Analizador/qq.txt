@@ -1,6 +1,6 @@
 	ONION core ho1 { import layer.c ;  
    import layer.veto;
-var v1; var vx;
+var v1; var v3;
 func F1 (main): v3=5;
 var vf = "hola" + "funsion";
 

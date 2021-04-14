@@ -1,6 +1,5 @@
 
  Referencias: 
- referencia invalida :v3 funcion  Linea #4
 
  Datos: 
 
@@ -15,10 +14,9 @@
  Elemeto clave :func Reservado  Linea #4
 
  ID :ho1 identificador de clase  Linea #1
- ID :c identificador de referencia  Linea #1
- ID :veto identificador de referencia  Linea #2
- ID :F1 identificador de funcion pertenece a la clase ho1  Linea #4
- ID :main parametro de funcion Principal  Linea #4
+ ID :c identificador de referencia pertenece a la clase ho1  Linea #1
+ ID :veto identificador de referencia pertenece a la clase ho1  Linea #2
+ ID :veto identificador de funcion pertenece a la clase Incorrecto  Linea #4
 
  VARIABLE :v1 variable global pertenece a la clase ho1  Linea #3
- VARIABLE :vx variable global pertenece a la clase ho1  Linea #3
+ VARIABLE :v3 variable global pertenece a la clase ho1  Linea #3

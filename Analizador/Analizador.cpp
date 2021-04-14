@@ -1719,7 +1719,7 @@ void revisionImpresion(){
 		
 		vector<string > tmp=listaIdentificadores[i];
 		
-		if(tmp[2]=="funcion"){
+		if(tmp[2]=="funcion"||tmp[2]=="referencia"){
 			
 		cout<<"\n ID :"<<tmp[0]<<" "<<tmp[1]<<" "<<tmp[2]<<" "<<tmp[3]<<" "<<tmp[4]<<" "<<tmp[5];
 				
@@ -2117,6 +2117,8 @@ void guardarIdentificador(string cadena){
 		Identificador.push_back(cadena);
 		Identificador.push_back("identificador de");
 		Identificador.push_back("referencia");
+		Identificador.push_back("pertenece a la clase");
+	    Identificador.push_back(ultimoId("clase"));
 		Identificador.push_back(decLine());
 		
 	}
@@ -2272,14 +2274,14 @@ bool idUtilizado(vector<string> id ){
 	
 		return false;
 	}
-	else if(id[2]=="funcion"){
+	else if(id[2]=="funcion"||id[2]=="referencia"){
 		
 		int i=0;
 		
 		while(i<listaIdentificadores.size()){
 			tmp=listaIdentificadores[i];
 			
-			if(id[0]==tmp[0] && tmp[2]=="funcion" && id[4]==tmp[4]){
+			if(id[0]==tmp[0] && (tmp[2]=="funcion"||tmp[2]=="referencia") && id[4]==tmp[4]){
 				
 				return true;
 			}
