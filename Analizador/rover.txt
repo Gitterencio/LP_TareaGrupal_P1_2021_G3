@@ -4,6 +4,7 @@ ONION core RoverLunar{
 	var Camara;
         var tomarfoto;
         var enfocahd;
+	var velConstante;
 	var anguloActualR=0;
 	var velocidad=0;
 	var anguloActualP=0;
@@ -111,6 +112,21 @@ ONION layer Camara{
        ;
 }
 
+ONION layer AvanceRover{
+       var avanzar;
+       var detener;
+     
+       func Mover(avanzar):
+       if(velConstante==avanzar):
+            print.("El Rover esta en movimiento");
+              ;elif(velocidad==detener):
+                 print.("El Rover se detiene");
+                  ;else:
+                       print.("ERROR");
+                  ;
+               ;
+
+ }
 
 	
 	
