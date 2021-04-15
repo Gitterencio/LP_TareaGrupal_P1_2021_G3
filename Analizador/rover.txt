@@ -10,6 +10,7 @@ ONION core RoverLunar{
 	var anguloActualP=0;
 	var longMAX=100;
 	var longActual;
+	var anguloActualRPedestal;
 	func princ (main):	
 	;
 }
@@ -57,6 +58,42 @@ ONION layer Brazo{
 ONION layer Pedestal{
 	var longitud;
 	var angulo;
+	var anguloRPedestal;
+	
+	func girarPedestalSobreSuEje(anguloRPedestal):
+	
+		if(anguloRPedestal<=360):
+			if(anguloRPedestal>=-360):
+			
+				anguloActualRPedestal=anguloActualRPedestal+anguloRPedestal;
+					
+				if(anguloActualRPedestal>=360):
+				
+					anguloActualRPedestal=anguloActualRPedestal-360;
+					
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+					
+				;elif(anguloActualRPedestal<=0):
+				
+					anguloActualRPedestal=anguloActualRPedestal+360;
+					
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados, sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+					
+				;else:
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados, sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+				;
+			;else:
+				print.("ERROR");
+			;
+		;else:	
+			print.("ERROR");
+		;	
+		
+	;				
+
 	func extender(longitud):
 		longActual=longActual+longitud;
 		

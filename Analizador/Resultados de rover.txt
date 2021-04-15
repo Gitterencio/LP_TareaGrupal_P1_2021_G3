@@ -7,46 +7,143 @@
  Elemeto clave :core  Reservado  Linea #1
  Elemeto clave :var Reservado  Linea #2
  Elemeto clave :var Reservado  Linea #3
+ Elemeto clave :var Reservado  Linea #4
  Elemeto clave :var Reservado  Linea #5
  Elemeto clave :var Reservado  Linea #6
  Elemeto clave :var Reservado  Linea #7
  Elemeto clave :var Reservado  Linea #8
  Elemeto clave :var Reservado  Linea #9
- Elemeto clave :func Reservado  Linea #10
- Elemeto clave :ONION  Reservado  Linea #14
- Elemeto clave :layer  Reservado  Linea #14
- Elemeto clave :var Reservado  Linea #16
- Elemeto clave :func Reservado  Linea #18
- Elemeto clave :if Reservado  Linea #21
- Elemeto clave :if Reservado  Linea #22
- Elemeto clave :print Reservado  Linea #23
- Elemeto clave :elif Reservado  Linea #25
- Elemeto clave :print Reservado  Linea #26
- Elemeto clave :else Reservado  Linea #29
+ Elemeto clave :var Reservado  Linea #10
+ Elemeto clave :var Reservado  Linea #11
+ Elemeto clave :var Reservado  Linea #12
+ Elemeto clave :var Reservado  Linea #13
+ Elemeto clave :func Reservado  Linea #14
+ Elemeto clave :ONION  Reservado  Linea #18
+ Elemeto clave :layer  Reservado  Linea #18
+ Elemeto clave :var Reservado  Linea #20
+ Elemeto clave :func Reservado  Linea #22
+ Elemeto clave :if Reservado  Linea #25
+ Elemeto clave :if Reservado  Linea #26
+ Elemeto clave :print Reservado  Linea #27
+ Elemeto clave :elif Reservado  Linea #29
  Elemeto clave :print Reservado  Linea #30
- Elemeto clave :func Reservado  Linea #34
- Elemeto clave :if Reservado  Linea #37
- Elemeto clave :if Reservado  Linea #38
- Elemeto clave :print Reservado  Linea #39
- Elemeto clave :elif Reservado  Linea #41
- Elemeto clave :print Reservado  Linea #42
- Elemeto clave :else Reservado  Linea #44
- Elemeto clave :print Reservado  Linea #45
+ Elemeto clave :else Reservado  Linea #33
+ Elemeto clave :print Reservado  Linea #34
+ Elemeto clave :func Reservado  Linea #38
+ Elemeto clave :if Reservado  Linea #41
+ Elemeto clave :if Reservado  Linea #42
+ Elemeto clave :print Reservado  Linea #43
+ Elemeto clave :elif Reservado  Linea #45
+ Elemeto clave :print Reservado  Linea #46
+ Elemeto clave :else Reservado  Linea #48
+ Elemeto clave :print Reservado  Linea #49
+ Elemeto clave :ONION  Reservado  Linea #58
+ Elemeto clave :layer  Reservado  Linea #58
+ Elemeto clave :var Reservado  Linea #59
+ Elemeto clave :var Reservado  Linea #60
+ Elemeto clave :var Reservado  Linea #61
+ Elemeto clave :func Reservado  Linea #63
+ Elemeto clave :if Reservado  Linea #65
+ Elemeto clave :if Reservado  Linea #66
+ Elemeto clave :if Reservado  Linea #70
+ Elemeto clave :print Reservado  Linea #74
+ Elemeto clave :print Reservado  Linea #75
+ Elemeto clave :elif Reservado  Linea #77
+ Elemeto clave :print Reservado  Linea #81
+ Elemeto clave :print Reservado  Linea #82
+ Elemeto clave :else Reservado  Linea #84
+ Elemeto clave :print Reservado  Linea #85
+ Elemeto clave :print Reservado  Linea #86
+ Elemeto clave :else Reservado  Linea #88
+ Elemeto clave :print Reservado  Linea #89
+ Elemeto clave :else Reservado  Linea #91
+ Elemeto clave :print Reservado  Linea #92
+ Elemeto clave :func Reservado  Linea #97
+ Elemeto clave :if Reservado  Linea #100
+ Elemeto clave :if Reservado  Linea #101
+ Elemeto clave :print Reservado  Linea #102
+ Elemeto clave :else Reservado  Linea #103
+ Elemeto clave :print Reservado  Linea #104
+ Elemeto clave :else Reservado  Linea #107
+ Elemeto clave :print Reservado  Linea #108
+ Elemeto clave :func Reservado  Linea #112
+ Elemeto clave :if Reservado  Linea #115
+ Elemeto clave :if Reservado  Linea #116
+ Elemeto clave :print Reservado  Linea #117
+ Elemeto clave :elif Reservado  Linea #118
+ Elemeto clave :print Reservado  Linea #119
+ Elemeto clave :else Reservado  Linea #121
+ Elemeto clave :print Reservado  Linea #122
+ Elemeto clave :ONION  Reservado  Linea #127
+ Elemeto clave :layer  Reservado  Linea #127
+ Elemeto clave :var Reservado  Linea #128
+ Elemeto clave :var Reservado  Linea #129
+ Elemeto clave :func Reservado  Linea #130
+ Elemeto clave :if Reservado  Linea #132
+ Elemeto clave :print Reservado  Linea #133
+ Elemeto clave :elif Reservado  Linea #134
+ Elemeto clave :print Reservado  Linea #135
+ Elemeto clave :else Reservado  Linea #137
+ Elemeto clave :print Reservado  Linea #138
+ Elemeto clave :func Reservado  Linea #142
+ Elemeto clave :var Reservado  Linea #143
+ Elemeto clave :if Reservado  Linea #144
+ Elemeto clave :print Reservado  Linea #145
+ Elemeto clave :else Reservado  Linea #146
+ Elemeto clave :print Reservado  Linea #147
+ Elemeto clave :ONION  Reservado  Linea #152
+ Elemeto clave :layer  Reservado  Linea #152
+ Elemeto clave :var Reservado  Linea #153
+ Elemeto clave :var Reservado  Linea #154
+ Elemeto clave :func Reservado  Linea #156
+ Elemeto clave :if Reservado  Linea #157
+ Elemeto clave :print Reservado  Linea #158
+ Elemeto clave :elif Reservado  Linea #159
+ Elemeto clave :print Reservado  Linea #160
+ Elemeto clave :else Reservado  Linea #161
+ Elemeto clave :print Reservado  Linea #162
 
  ID :RoverLunar identificador de clase  Linea #1
- ID :princ identificador de funcion pertenece a la clase RoverLunar  Linea #10
- ID :main parametro de funcion Principal  Linea #10
- ID :Brazo identificador de clase  Linea #14
- ID :moverIzq identificador de funcion pertenece a la clase Brazo  Linea #18
- ID :angulo parametro de funcion definida  Linea #18
- ID :moverDer identificador de funcion pertenece a la clase Brazo  Linea #34
- ID :angulo parametro de funcion definida  Linea #34
+ ID :princ identificador de funcion pertenece a la clase RoverLunar  Linea #14
+ ID :main parametro de funcion Principal  Linea #14
+ ID :Brazo identificador de clase  Linea #18
+ ID :moverIzq identificador de funcion pertenece a la clase Brazo  Linea #22
+ ID :angulo parametro de funcion definida  Linea #22
+ ID :moverDer identificador de funcion pertenece a la clase Brazo  Linea #38
+ ID :angulo parametro de funcion definida  Linea #38
+ ID :Pedestal identificador de clase  Linea #58
+ ID :girarPedestalSobreSuEje identificador de funcion pertenece a la clase Pedestal  Linea #63
+ ID :anguloRPedestal parametro de funcion definida  Linea #63
+ ID :extender identificador de funcion pertenece a la clase Pedestal  Linea #97
+ ID :longitud parametro de funcion definida  Linea #97
+ ID :inclinar identificador de funcion pertenece a la clase Pedestal  Linea #112
+ ID :angulo parametro de funcion definida  Linea #112
+ ID :Camara identificador de clase  Linea #127
+ ID :tomarfoto identificador de funcion pertenece a la clase Camara  Linea #130
+ ID :angulo parametro de funcion definida  Linea #130
+ ID :enviarfoto identificador de funcion pertenece a la clase Camara  Linea #142
+ ID :AvanceRover identificador de clase  Linea #152
+ ID :Mover identificador de funcion pertenece a la clase AvanceRover  Linea #156
+ ID :avanzar parametro de funcion definida  Linea #156
 
  VARIABLE :numBrazo variable global pertenece a la clase RoverLunar  Linea #2
  VARIABLE :numRueda variable global pertenece a la clase RoverLunar  Linea #3
- VARIABLE :anguloActualR variable global pertenece a la clase RoverLunar  Linea #5
- VARIABLE :velocidad variable global pertenece a la clase RoverLunar  Linea #6
- VARIABLE :anguloActualP variable global pertenece a la clase RoverLunar  Linea #7
- VARIABLE :longMAX variable global pertenece a la clase RoverLunar  Linea #8
- VARIABLE :longActual variable global pertenece a la clase RoverLunar  Linea #9
- VARIABLE :angulo variable global pertenece a la clase Brazo  Linea #16
+ VARIABLE :Camara variable global pertenece a la clase RoverLunar  Linea #4
+ VARIABLE :tomarfoto variable global pertenece a la clase RoverLunar  Linea #5
+ VARIABLE :enfocahd variable global pertenece a la clase RoverLunar  Linea #6
+ VARIABLE :velConstante variable global pertenece a la clase RoverLunar  Linea #7
+ VARIABLE :anguloActualR variable global pertenece a la clase RoverLunar  Linea #8
+ VARIABLE :velocidad variable global pertenece a la clase RoverLunar  Linea #9
+ VARIABLE :anguloActualP variable global pertenece a la clase RoverLunar  Linea #10
+ VARIABLE :longMAX variable global pertenece a la clase RoverLunar  Linea #11
+ VARIABLE :longActual variable global pertenece a la clase RoverLunar  Linea #12
+ VARIABLE :anguloActualRPedestal variable global pertenece a la clase RoverLunar  Linea #13
+ VARIABLE :angulo variable global pertenece a la clase Brazo  Linea #20
+ VARIABLE :longitud variable global pertenece a la clase Pedestal  Linea #59
+ VARIABLE :angulo variable global pertenece a la clase Pedestal  Linea #60
+ VARIABLE :anguloRPedestal variable global pertenece a la clase Pedestal  Linea #61
+ VARIABLE :guardar variable global pertenece a la clase Camara  Linea #128
+ VARIABLE :enviar variable global pertenece a la clase Camara  Linea #129
+ VARIABLE :gv variable local pertenece a la funcion enviarfoto clase Camara  Linea #143
+ VARIABLE :avanzar variable global pertenece a la clase AvanceRover  Linea #153
+ VARIABLE :detener variable global pertenece a la clase AvanceRover  Linea #154
