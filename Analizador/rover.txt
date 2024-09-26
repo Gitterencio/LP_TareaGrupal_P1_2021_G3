@@ -1,0 +1,170 @@
+ONION core RoverLunar{
+	var numBrazo;
+	var numRueda;
+	var Camara;
+        var tomarfoto;
+        var enfocahd;
+	var velConstante;
+	var anguloActualR=0;
+	var velocidad=0;
+	var anguloActualP=0;
+	var longMAX=100;
+	var longActual;
+	var anguloActualRPedestal;
+	func princ (main):	
+	;
+}
+
+ONION layer Brazo{
+	
+	var angulo;
+	
+	func moverIzq(angulo):
+		anguloActualR=anguloActualR+angulo;
+		
+		if(anguloActualR<=140):
+			if(anguloActualR>=0):
+				print.("Girando rueda a la izquierda");
+			;
+			elif(anguloActualR>=-140):	
+				print.("Girando rueda a la derecha");
+			;
+		;
+		else :
+				print.("ERROR");
+			;	
+				
+	;
+	func moverDer(angulo):
+		anguloActualR=anguloActualR+angulo;
+		
+		if(anguloActualR<=140):
+			if(anguloActualR>=0):
+				print.("Girando rueda a la izquierda");
+			;
+			elif(anguloActualR>=-140):	
+				print.("Girando rueda a la derecha");
+			;
+		;else :
+				print.("ERROR");
+			;
+			
+		
+			
+	;
+				
+}
+
+ONION layer Pedestal{
+	var longitud;
+	var angulo;
+	var anguloRPedestal;
+	
+	func girarPedestalSobreSuEje(anguloRPedestal):
+	
+		if(anguloRPedestal<=360):
+			if(anguloRPedestal>=-360):
+			
+				anguloActualRPedestal=anguloActualRPedestal+anguloRPedestal;
+					
+				if(anguloActualRPedestal>=360):
+				
+					anguloActualRPedestal=anguloActualRPedestal-360;
+					
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+					
+				;elif(anguloActualRPedestal<=0):
+				
+					anguloActualRPedestal=anguloActualRPedestal+360;
+					
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados, sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+					
+				;else:
+					print.("El pedestal del Rover giro "+anguloRPedestal+" grados, sobre su eje");
+					print.("Quedando actualmente en un angulo "+anguloActualRPedestal+" grados");
+				;
+			;else:
+				print.("ERROR");
+			;
+		;else:	
+			print.("ERROR");
+		;	
+		
+	;				
+
+	func extender(longitud):
+		longActual=longActual+longitud;
+		
+		if(longActual<=100):
+			if(longActual>=0):
+				print.("Extendiendo pedestal "+longActual+" cm");
+			;else:
+				print.("ERROR");
+				;
+		;
+		else:
+			print.("ERROR");
+		;
+	;
+	
+	func inclinar(angulo):
+		anguloActualP=angulo+anguloActualP;
+		
+		if(anguloActualP<=45):
+			if(anguloActualP>=0):
+				print.("Inclinando hacia arriba "+anguloActualP+" grados");
+			;elif (anguloActualP>=-45):
+				print.("Inclinando hacia abajo "+anguloActualP+" grados");
+			;
+		;else:
+			print.("ERROR");
+		;
+	;
+	}
+	
+ONION layer Camara{
+         var guardar;
+         var enviar;
+         func tomarfoto(angulo):
+         enfocahd=angulo+anguloActualP;
+         if(anguloActualP<=45):
+               print.("Capturar Foto");
+         ;elif(anguloActualP>=-45):
+                       print.("Capturar Foto");
+         ;
+         else:
+                   print.("ERROR");
+         ;
+      ;
+
+       func enviarfoto():
+ var gv=guardar+enviar;
+        if (tomarfoto==gv):
+         print.("foto guardada y enviada");
+              ;else:
+                   print.("ERROR");
+           ;
+       ;
+}
+
+ONION layer AvanceRover{
+       var avanzar;
+       var detener;
+     
+       func Mover(avanzar):
+       if(velConstante==avanzar):
+            print.("El Rover esta en movimiento");
+              ;elif(velocidad==detener):
+                 print.("El Rover se detiene");
+                  ;else:
+                       print.("ERROR");
+                  ;
+               ;
+
+ }
+
+	
+	
+	
